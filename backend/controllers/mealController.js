@@ -1,12 +1,13 @@
 const asyncHandler = require('express-async-handler')
 
 const Meal = require('../models/mealModel')
+const User = require('../models/userModel')
 
 // @desc   Get all meals
 // @route  GET /api/meals
 // @access  Private
 const getMeals = asyncHandler(async (req, res) => {
-    const meals = await Meal.find()
+    const meals = await Meal.find({ user: req.user.id })
 
     res.status(200).json(meals)
 })
@@ -21,7 +22,7 @@ const createMeal = asyncHandler(async (req, res) => {
     }
 
     const meal = await Meal.create({
-        id: req.body.id,
+        user: req.user.id,
         type: req.body.type,
         meal_name: req.body.meal_name,
         ingredients: req.body.ingredients,
@@ -41,6 +42,20 @@ const updateMeal = asyncHandler(async (req, res) => {
         throw new Error('Meal Not Found')
     }
 
+    const user = await User.findById(req.user.id)
+
+    //Check for user
+    if(!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    //Make sure the logged in user matches the meal user
+    if(global.user.toString() !== user.id){
+        res.status(401)
+        throw new Error('User not authorized')
+    }
+
     const updatedMeal = await Meal.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
     })
@@ -56,6 +71,20 @@ const deleteMeal = asyncHandler(async (req, res) => {
     if (!meal){
         res.status(400)
         throw new Error('Meal Not Found')
+    }
+
+    const user = await User.findById(req.user.id)
+
+    //Check for user
+    if(!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    //Make sure the logged in user matches the meal user
+    if(global.user.toString() !== user.id){
+        res.status(401)
+        throw new Error('User not authorized')
     }
 
     await meal.deleteOne()
