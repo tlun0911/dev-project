@@ -1,0 +1,220 @@
+{
+  "meals": [
+    {
+      "id": "1",
+      "type": "dinner",
+      "meal_name": "Spaghetti Carbonara",
+      "ingredients": [
+        "spaghetti",
+        "eggs",
+        "parmesan cheese",
+        "pancetta",
+        "black pepper",
+        "salt"
+      ],
+      "recipe": "Cook spaghetti. In a separate pan, cook pancetta. Mix eggs and cheese. Combine spaghetti, pancetta, and egg mixture. Season with salt and pepper."
+    },
+    {
+      "id": "2",
+      "type": "dinner",
+      "meal_name": "Chicken Alfredo",
+      "ingredients": [
+        "fettuccine",
+        "chicken breast",
+        "butter",
+        "1 qt heavy cream",
+        "parmesan cheese",
+        "garlic",
+        "salt",
+        "pepper"
+      ],
+      "recipe": "Cook fettuccine. In a pan, cook chicken breast. Prepare Alfredo sauce with butter, garlic, cream, and cheese. Combine pasta, chicken, and sauce. Season with salt and pepper."
+    },
+    {
+      "id": "3",
+      "type": "dinner",
+      "meal_name": "Beef Tacos",
+      "ingredients": [
+        "ground beef",
+        "taco seasoning",
+        "tortillas",
+        "lettuce",
+        "cheese",
+        "tomatoes",
+        "sour cream"
+      ],
+      "recipe": "Cook ground beef with taco seasoning. Prepare toppings. Fill tortillas with beef and toppings."
+    },
+    {
+      "id": "5",
+      "type": "lunch",
+      "meal_name": "Margherita Pizza",
+      "ingredients": [
+        "pizza dough",
+        "tomato sauce",
+        "mozzarella cheese",
+        "basil",
+        "olive oil",
+        "salt"
+      ],
+      "recipe": "Spread sauce on dough. Add cheese and basil. Bake until crust is golden. Drizzle with olive oil and season with salt."
+    },
+    {
+      "id": "6",
+      "type": "dinner",
+      "meal_name": "Grilled Salmon",
+      "ingredients": [
+        "salmon fillets",
+        "lemon",
+        "dill",
+        "olive oil",
+        "salt",
+        "pepper"
+      ],
+      "recipe": "Season salmon with lemon, dill, salt, and pepper. Grill until cooked through. Serve with a side of vegetables."
+    },
+    {
+      "id": "7",
+      "type": "dinner",
+      "meal_name": "Beef Stroganoff",
+      "ingredients": [
+        "beef strips",
+        "mushrooms",
+        "onion",
+        "sour cream",
+        "beef broth",
+        "egg noodles",
+        "butter"
+      ],
+      "recipe": "Cook beef and set aside. Sauté onions and mushrooms. Add beef broth and simmer. Stir in sour cream and beef. Serve over noodles."
+    },
+    {
+      "id": "8",
+      "type": "lunch",
+      "meal_name": "Chicken Curry",
+      "ingredients": [
+        "chicken breast",
+        "curry powder",
+        "coconut milk",
+        "onions",
+        "garlic",
+        "ginger",
+        "tomatoes",
+        "cilantro"
+      ],
+      "recipe": "Sauté onions, garlic, and ginger. Add chicken and curry powder. Stir in coconut milk and tomatoes. Simmer until chicken is cooked. Garnish with cilantro."
+    },
+    {
+      "id": "9",
+      "type": "lunch",
+      "meal_name": "Caesar Salad",
+      "ingredients": [
+        "romaine lettuce",
+        "croutons",
+        "parmesan cheese",
+        "Caesar dressing",
+        "chicken breast"
+      ],
+      "recipe": "Grill chicken and slice. Toss lettuce with dressing, croutons, and cheese. Top with chicken."
+    },
+    {
+      "id": "10",
+      "type": "lunch",
+      "meal_name": "Vegetable Soup",
+      "ingredients": [
+        "carrots",
+        "celery",
+        "potatoes",
+        "tomatoes",
+        "onions",
+        "garlic",
+        "vegetable broth",
+        "bay leaves"
+      ],
+      "recipe": "Sauté onions and garlic. Add remaining vegetables and broth. Simmer until vegetables are tender. Season to taste."
+    },
+    {
+      "id": "11",
+      "type": "dinner",
+      "meal_name": "Shrimp Scampi",
+      "ingredients": [
+        "shrimp",
+        "garlic",
+        "lemon",
+        "butter",
+        "white wine",
+        "parsley",
+        "linguine"
+      ],
+      "recipe": "Cook linguine. Sauté garlic in butter. Add shrimp and cook until pink. Stir in lemon juice and wine. Toss with pasta and parsley."
+    },
+    {
+      "id": "12",
+      "type": "breakfast",
+      "meal_name": "Pancakes",
+      "ingredients": [
+        "flour",
+        "milk",
+        "eggs",
+        "baking powder",
+        "sugar",
+        "salt",
+        "butter"
+      ],
+      "recipe": "Mix dry ingredients. Whisk in wet ingredients. Cook on a griddle until bubbles form, then flip. Serve with syrup."
+    },
+    {
+      "id": "15",
+      "type": "dinner",
+      "meal_name": "Fish Tacos",
+      "ingredients": [
+        "white fish",
+        "tortillas",
+        "cabbage",
+        "lime",
+        "cilantro",
+        "avocado",
+        "sour cream"
+      ],
+      "recipe": "Cook fish. Prepare toppings. Fill tortillas with fish and toppings."
+    },
+    {
+      "id": "35e2",
+      "type": "dinner",
+      "meal_name": "Lasagna",
+      "ingredients": [
+        "Ground Beef",
+        "Noodles",
+        "Sauce",
+        "Cheese"
+      ],
+      "recipe": "Cook noodles, preheat oven. Cook and serve"
+    },
+    {
+      "id": "ac17",
+      "meal_name": "Hot Dogs",
+      "type": "dinner",
+      "ingredients": [
+        "Hot Dogs",
+        "Buns",
+        "Ketchup"
+      ],
+      "recipe": "Cook hot dogs on grill, serve on buns"
+    },
+    {
+      "id": "7067",
+      "meal_name": "Tacos",
+      "type": "lunch",
+      "ingredients": [
+        "Ground Beef",
+        "Taco Kit",
+        "Sour Cream",
+        "Salsa",
+        "Lettuce",
+        "Mexican Cheese",
+        "Hot Sauce"
+      ],
+      "recipe": "Cook beef in pan, pre-heat oven to 350 degrees. Heat up shells, mix in taco seasoning and water. Simmer until cooked, serve on shells"
+    }
+  ]
+}

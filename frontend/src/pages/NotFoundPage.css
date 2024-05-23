@@ -1,0 +1,6 @@
+.text-yellow-400 {
+    color: #fbbf24; /* Equivalent to Tailwind's text-yellow-400 */
+}
+.text-6xl {
+    font-size: 4rem; /* Equivalent to Tailwind's text-6xl */
+}
