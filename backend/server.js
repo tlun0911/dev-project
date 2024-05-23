@@ -1,19 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const {errorHandler} = require('./middleware/errorMiddleware')
+const dotenv = require('dotenv').config();
+const port = process.env.PORT || 3000;
 
-dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/', (req, res) => {
-    res.send('Hello world');
+app.use('/api/meals', require('./routes/mealRoutes'))
 
-});
+app.use(errorHandler)
 
 
 
