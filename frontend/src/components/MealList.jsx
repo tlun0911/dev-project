@@ -13,7 +13,7 @@ const MealList = ( {isHome = false} ) => {
 
     useEffect(() =>{
         const fetchMeals = async() =>{
-            const apiURL = isHome ? '/api/meals?_limit=2' : '/api/meals';
+            const apiURL = isHome ? '/api/meals' : '/api/meals';
 
             try{
                 const res = await fetch(apiURL);
@@ -45,18 +45,8 @@ const MealList = ( {isHome = false} ) => {
 
   return (
     <>
-        {filter_items}
-        <div className="container text-center">
-            <div className="row row-cols-1 row-cols-md-2 g-4">
-                    {meals.map((meal) => (
-                        (meal.type === type || type === 'all') ? (
-                        <Meal key={meal.id} meal={meal} />
 
-                        ) : null
-                    ))}
-                    
-            </div>
-        </div>
+<div> test</div>
     </>
   )
 }

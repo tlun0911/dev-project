@@ -121,7 +121,7 @@ const AddMealPage = ({ addMealSubmit }) => {
                     </div>
 
                     <div className="mb-3">
-                        <label htmlhtmlFor="recipe-input" className="form-label fw-bold">Recipe Input</label>
+                        <label htmlFor="recipe-input" className="form-label fw-bold">Recipe Input</label>
                         <textarea className="form-control border-primary"
                                     id="recipe-input" 
                                     rows="3"
