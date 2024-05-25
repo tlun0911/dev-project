@@ -1,43 +1,59 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify';
+import { createMeal }  from '../features/meals/mealSlice'
 import './AddMealPage.css';
 
-const AddMealPage = ({ addMealSubmit }) => {
-    const [mealName, setMealName] = useState('');
-    const [ingredients, setIngredients] = useState(['', '', '']);
-    const [recipe, setRecipe] = useState([]);
-    const [type, setType] = useState('');
+const AddMealPage = () => {
 
+    const [mealData, setMealData] = useState({
+        meal_name: '',
+        type: '',
+        ingredients: ['', '', ''],
+        recipe: '',
+    })
+
+    const { meal_name, type, ingredients, recipe } = mealData
+
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const addInputField = () => {
-        setIngredients([...ingredients, '']);
-    };
+    const { meals, isLoading, isError, isSuccess, message } = useSelector(
+        (state) => state.meal
+      )
 
-    const handleIngredientChange = (index, event) => {
-        const newIngredients = [...ingredients];
-        newIngredients[index] = event.target.value;
-        setIngredients(newIngredients);
-    };
+    const addInputField = () => {
+        setMealData({
+            ...mealData,
+            ingredients: [...mealData.ingredients, '']
+            });
+        };
+
+
 
     const submitForm = (e) =>{
-        e.preventDefault();
-
-        const newMeal = {
-            "meal_name": mealName,
-            "type": type,
-            "ingredients": ingredients,
-            "recipe": recipe,
-        }
-
-        addMealSubmit(newMeal);
-
-        toast.success('Meal added successfully!');
-
-        return navigate('/');
+        e.preventDefault()
+        dispatch(createMeal(mealData))
 
     };
+
+    const onChange = (e) => {
+        setMealData((prevState) => ({
+          ...prevState,
+          [e.target.name]: e.target.value,
+        }))
+      }
+
+    const handleIngredientChange = (index, event) => {
+        const newIngredients = mealData.ingredients.map((ingredient, i) => 
+            i === index ? event.target.value : ingredient
+          );
+          setMealData({
+            ...mealData,
+            ingredients: newIngredients
+          });
+    }
 
 
   return (
@@ -56,8 +72,8 @@ const AddMealPage = ({ addMealSubmit }) => {
                             name='meal_name'
                             className="form-control mb-2 border-primary"
                             required
-                            value={mealName}
-                            onChange={(e) => setMealName(e.target.value)}
+                            value={meal_name}
+                            onChange={onChange}
                         />
                         </label>
                     </div>
@@ -67,9 +83,9 @@ const AddMealPage = ({ addMealSubmit }) => {
                             <div className="form-check form-check m-1 border-primary">
                                 <input className="form-check-input border-primary" type="radio"
                                 id="breakfast-radio"
-                                name="type-radios"
+                                name="type"
                                 value="breakfast"
-                                onChange={(e) => setType(e.target.value)} />
+                                onChange={onChange} />
                                 <label className="form-check-label" htmlFor="breakfast-radio">
                                     Breakfast
                                 </label>
@@ -77,9 +93,9 @@ const AddMealPage = ({ addMealSubmit }) => {
                             <div className="form-check form-check m-1">
                                 <input className="form-check-input border-primary" type="radio"
                                 id="lunch-radio"
-                                name="type-radios"
+                                name="type"
                                 value="lunch"
-                                onChange={(e) => setType(e.target.value)} />
+                                onChange={onChange} />
                                 <label className="form-check-label" htmlFor="lunch-radio">
                                     Lunch
                                 </label>
@@ -87,9 +103,9 @@ const AddMealPage = ({ addMealSubmit }) => {
                             <div className="form-check form-check m-1">
                                 <input className="form-check-input border-primary" type="radio"
                                 id="dinner-radio"
-                                name="type-radios"
+                                name="type"
                                 value="dinner"
-                                onChange={(e) => setType(e.target.value)} />
+                                onChange={onChange} />
                                 <label className="form-check-label" htmlFor="dinner-radio">
                                     Dinner
                                 </label>
@@ -99,7 +115,7 @@ const AddMealPage = ({ addMealSubmit }) => {
                     <div className='mb-4'>
                         <label className="d-block text-dark fw-bold mb-2">
                             Ingredients
-                        {ingredients.map((ingredient, index) => (
+                        {mealData.ingredients.map((ingredient, index) => (
                             <div key={index}>
                                 <div className="input-group mb-3">
                                     <span className="input-group-text border-primary">{`Ingredient ${index+1}`}</span>
@@ -124,9 +140,10 @@ const AddMealPage = ({ addMealSubmit }) => {
                         <label htmlFor="recipe-input" className="form-label fw-bold">Recipe Input</label>
                         <textarea className="form-control border-primary"
                                     id="recipe-input" 
+                                    name="recipe"
                                     rows="3"
                                     value={recipe}
-                                    onChange={(e)=> setRecipe(e.target.value)}
+                                    onChange={onChange}
                                     />
                     </div>
 

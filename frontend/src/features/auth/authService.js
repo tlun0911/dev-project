@@ -1,5 +1,5 @@
 import axios from 'axios'
-import Register from '../../components/Register'
+
 
 const API_URL = '/api/users/'
 
