@@ -14,9 +14,9 @@ const Meal = ({ meal }) => {
     }
 
   return (
-    <>
-    <div className="col">
-        <div className="card border-primary border-2 h-100">
+    <div className='row row-cols-2'>
+    <div className="col-sm mb-3">
+        <div className="card border-primary border-2 h-100 mb-3">
         <h5 className="card-header bg-primary">{meal.meal_name}</h5>
             <div className="card-body">
             <h5 className="card-title">Ingredients</h5>
@@ -27,14 +27,15 @@ const Meal = ({ meal }) => {
                     ))}
                 </ol>
                 <p className="card-text">Click below to see the full details and recipe!</p>
-                <Link to={`/meals/${meal.id}`}
+                <Link to={`/meals/${meal._id}`}
                     className='bg-primary text-white px-4 py-2 rounded text-center small'>
                     Meal Details
                 </Link>
             </div>
         </div>
     </div>
-    </>
+    </div>
+
   )
 }
 

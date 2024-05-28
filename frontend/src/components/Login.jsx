@@ -25,11 +25,11 @@ const Login = () => {
       toast.error(message)
     }
 
-    if (isSuccess || user) {
+    if (isSuccess && user) {
       navigate('/')
     }
 
-    dispatch(reset())
+   
   }, [user, isError, isSuccess, message, navigate, dispatch])
 
   const onChange = (e) => {

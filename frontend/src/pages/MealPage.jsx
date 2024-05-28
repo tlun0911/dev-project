@@ -1,22 +1,34 @@
-import React from 'react'
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaArrowLeft, FaMapMarker } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { useParams, useLoaderData, useNavigate } from 'react-router-dom';
+import { selectMealById } from '../features/selectors';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
-const MealPage = ({ deleteMeal }) => {
+
+const MealPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch()
     const { id } = useParams();
-    const meal = useLoaderData();
+    const mealSelector = selectMealById(id);
+    const meal = useSelector((state) => mealSelector(state));
+
+
+    const { user } = useSelector((state) => state.auth)
+    const { meals, isError, isSuccess, isLoading, message } = useSelector(
+      (state) => state.meal
+    )
+
+
+    console.log(meal)
 
     const onDeleteClick = (mealId) => {
       const confirm = window.confirm(
         'Are you sure you want to delete this meal?'
       );
   
-      if (!confirm) return;
-  
-      deleteMeal(mealId);
+      if (!confirm) return;   
 
       toast.success('Meal deleted successfully!');
   
@@ -52,11 +64,8 @@ const MealPage = ({ deleteMeal }) => {
               <h5 className="card-header bg-primary">{meal.meal_name}</h5>
               <div className="card-body">
               <h5 className="card-title">Ingredients</h5>
-                <ol className='list-group list-group-numbered'>
-                  {meal.ingredients.map((ingredient, index) => (
-                    <li key={index} className='list-group-item list-group-item-dark'>{formatText(ingredient)}</li>
-                    ))}
-                </ol>
+              
+
                 <div className="card border-primary">
                   <h5 className="card-header bg-primary">Recipe</h5>
                   <div className="card-body">
@@ -72,12 +81,12 @@ const MealPage = ({ deleteMeal }) => {
         <section className='d-flex justify-content-center p-3'> 
           <Link type="button"
             className="btn btn-primary m-2"
-            to={`/edit-meal/${meal.id}`}>
+            to={`/edit-meal/${meals._id}`}>
             Edit Meal
           </Link>
           <button type="button"
             className="btn btn-primary m-2"
-            onClick={() => onDeleteClick(meal.id)}>
+            onClick={() => onDeleteClick(meals._id)}>
             Delete Meal
           </button>
         </section>
@@ -85,10 +94,6 @@ const MealPage = ({ deleteMeal }) => {
   )
 }
 
-const mealLoader = async ({ params }) => {
-    const res = await fetch(`/api/meals/${params.id}`);
-    const data = await res.json();
-    return data;
-  };
 
-export { MealPage as default, mealLoader };
+
+export default MealPage;

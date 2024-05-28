@@ -31,6 +31,38 @@ const createMeal = asyncHandler(async (req, res) => {
     res.status(200).json(meal)
 })
 
+// @desc Get single meal
+// @route GET /api/meals/:id
+// @access  Private
+const getMeal = asyncHandler(async(req, res) => {
+    console.log('Inside getMeal API call')
+    console.log(req.params.id)
+    const meal = await Meal.findById(req.params.id)
+    console.log(meal)
+
+    if(!meal) {
+        res.status(400)
+        throw new Error('Meal Not Found')
+    }
+
+    const user = await User.findById(req.user.id)
+
+    //Check for user
+    if(!user){
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    //Make sure the logged in user matches the meal user
+    //if(global.user.toString() !== user.id){
+      //  res.status(401)
+        //throw new Error('User not authorized')
+    //}
+
+    res.status(200).json(meal)
+
+})
+
 // @desc   Update meal
 // @route  POST /api/meals/:id
 // @access  Private
@@ -97,4 +129,5 @@ module.exports = {
     createMeal,
     updateMeal,
     deleteMeal,
+    getMeal,
 }

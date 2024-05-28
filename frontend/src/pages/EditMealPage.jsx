@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { useParams, useLoaderData, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
-const EditMealPage = ({ updateMealSubmit }) => {
-    const meal = useLoaderData();
+const EditMealPage = () => {
     const [mealName, setMealName] = useState(meal.meal_name);
     const [ingredients, setIngredients] = useState(meal.ingredients);
     const [recipe, setRecipe] = useState(meal.recipe);

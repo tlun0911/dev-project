@@ -8,9 +8,12 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import { FaPlus } from 'react-icons/fa6'
+import { reset } from '../features/auth/authSlice'
 import './AddMealPage.css';
 
 const AddMealPage = () => {
+
+    const { user } = useSelector((state) => state.auth)
 
     const [mealData, setMealData] = useState({
         meal_name: '',
@@ -28,13 +31,23 @@ const AddMealPage = () => {
         (state) => state.meal
       )
 
+    useEffect(() => {
+  
+
+    if (!user) {
+        navigate('/login')
+    }
+    
+    dispatch(reset())
+    }, [user, navigate, isError, message, dispatch])
+
+
     const addInputField = () => {
         setMealData({
             ...mealData,
             ingredients: [...mealData.ingredients, '']
             });
         };
-
 
 
     const submitForm = (e) =>{
@@ -68,6 +81,8 @@ const AddMealPage = () => {
             ingredients: newIngredients
           });
     }
+
+
 
 
   return (

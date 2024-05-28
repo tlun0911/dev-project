@@ -19,7 +19,7 @@ const NavBar = () => {
 
   const onLogout = () => {
     dispatch(logout())
-    dispatch(reset())
+    //dispatch(reset())
     navigate('/')
   }
 
@@ -42,15 +42,16 @@ const NavBar = () => {
             </Navbar.Collapse>
              
               {user ? (
-                  <li>
-                  <button type="button" className='btn btn-primary' onClick={onLogout}>
+                <div>
+                  <span className='fw-400 mx-3'>{user.email}</span>                  
+                  <button type="button" className='btn btn-primary mx-3' onClick={onLogout}>
                     Sign Out
                   </button>
-                  </li>
+                </div>                
                 
               ) : (
                 <div>
-                  <Nav className="mr-auto">
+                  <Nav className="mx-3">
                     <Nav.Link as={NavLink} to="/login" className='nav-link' activeclassname='active'>Login</Nav.Link>
                     <Nav.Link as={NavLink} to="/register" className='nav-link' activeclassname='active'>Register</Nav.Link> 
                   </Nav>
