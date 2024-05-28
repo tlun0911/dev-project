@@ -9,6 +9,7 @@ import Form from 'react-bootstrap/Form';
 import './NavBar.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice'
+import { reset as mealReset} from '../features/meals/mealSlice'
 
 
 const NavBar = () => {
@@ -19,7 +20,8 @@ const NavBar = () => {
 
   const onLogout = () => {
     dispatch(logout())
-    //dispatch(reset())
+    dispatch(reset())
+    dispatch(mealReset())
     navigate('/')
   }
 
@@ -38,6 +40,7 @@ const NavBar = () => {
                     <Nav.Link as={NavLink} to="/" className='nav-link' activeclassname='active'>Home</Nav.Link>
                     <Nav.Link as={NavLink} to="/meals" className='nav-link' activeclassname='active'>Meals</Nav.Link>
                     <Nav.Link as={NavLink} to="/add-meal" className='nav-link' activeclassname='active'>Add Meal</Nav.Link>
+                    <Nav.Link as={NavLink} to="/browse" className='nav-link' activeclassname='active'>Browse Other User Meals</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
              

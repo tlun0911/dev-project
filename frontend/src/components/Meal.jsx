@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-const Meal = ({ meal }) => {
+const Meal = ({meal, user}) => {
 
     const formatText = (text) =>{
 
@@ -19,14 +19,15 @@ const Meal = ({ meal }) => {
         <div className="card border-primary border-2 h-100 mb-3">
         <h5 className="card-header bg-primary">{meal.meal_name}</h5>
             <div className="card-body">
-            <h5 className="card-title">Ingredients</h5>
-            <h6 className="card-subtitle mb-2 text-body-secondary">{formatText(meal.type)}</h6>
+            <h5 className="card-subtitle mb-3 text-body-secondary">Category - {formatText(meal.type)}</h5>
+            <h6 className="card-title mb-3">Ingredients</h6>
+            
                 <ol className='list-group list-group-numbered'>
                     {meal.ingredients.map((ingredient, index) => (
                         <li key={index} className='list-group-item list-group-item-dark'>{formatText(ingredient)}</li>
                     ))}
                 </ol>
-                <p className="card-text">Click below to see the full details and recipe!</p>
+                <p className="card-text">Created by - {meal.user_email}</p>
                 <Link to={`/meals/${meal._id}`}
                     className='bg-primary text-white px-4 py-2 rounded text-center small'>
                     Meal Details

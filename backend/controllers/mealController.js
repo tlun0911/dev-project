@@ -12,6 +12,15 @@ const getMeals = asyncHandler(async (req, res) => {
     res.status(200).json(meals)
 })
 
+//@desc    Get all non-user meals to browse
+//@route   GET /api/meals/browse
+//@access  Private
+const browseMeals = asyncHandler(async (req, res) => {
+    const meals = await Meal.find({ user: { $ne: req.user.id }})
+
+    res.status(200).json(meals)
+})
+
 // @desc   Set meal
 // @route  POST /api/meals
 // @access  Private
@@ -26,42 +35,12 @@ const createMeal = asyncHandler(async (req, res) => {
         type: req.body.type,
         meal_name: req.body.meal_name,
         ingredients: req.body.ingredients,
-        recipe: req.body.recipe
+        recipe: req.body.recipe,
+        user_email: req.body.user_email
     })
     res.status(200).json(meal)
 })
 
-// @desc Get single meal
-// @route GET /api/meals/:id
-// @access  Private
-const getMeal = asyncHandler(async(req, res) => {
-    console.log('Inside getMeal API call')
-    console.log(req.params.id)
-    const meal = await Meal.findById(req.params.id)
-    console.log(meal)
-
-    if(!meal) {
-        res.status(400)
-        throw new Error('Meal Not Found')
-    }
-
-    const user = await User.findById(req.user.id)
-
-    //Check for user
-    if(!user){
-        res.status(401)
-        throw new Error('User not found')
-    }
-
-    //Make sure the logged in user matches the meal user
-    //if(global.user.toString() !== user.id){
-      //  res.status(401)
-        //throw new Error('User not authorized')
-    //}
-
-    res.status(200).json(meal)
-
-})
 
 // @desc   Update meal
 // @route  POST /api/meals/:id
@@ -83,10 +62,6 @@ const updateMeal = asyncHandler(async (req, res) => {
     }
 
     //Make sure the logged in user matches the meal user
-    if(global.user.toString() !== user.id){
-        res.status(401)
-        throw new Error('User not authorized')
-    }
 
     const updatedMeal = await Meal.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
@@ -98,7 +73,8 @@ const updateMeal = asyncHandler(async (req, res) => {
 // @route  DELETE /api/meals/:id
 // @access  Private
 const deleteMeal = asyncHandler(async (req, res) => {
-    const meal = await Meal.findById(req.params.id)
+      
+    const meal = await Meal.findById(req.params.id)   
 
     if (!meal){
         res.status(400)
@@ -114,10 +90,7 @@ const deleteMeal = asyncHandler(async (req, res) => {
     }
 
     //Make sure the logged in user matches the meal user
-    if(global.user.toString() !== user.id){
-        res.status(401)
-        throw new Error('User not authorized')
-    }
+
 
     await meal.deleteOne()
     res.status(200).json({ id: req.params.id })
@@ -129,5 +102,5 @@ module.exports = {
     createMeal,
     updateMeal,
     deleteMeal,
-    getMeal,
+    browseMeals,
 }

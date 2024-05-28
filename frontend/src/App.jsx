@@ -12,8 +12,9 @@ import MealsPage from './pages/MealsPage';
 import MealPage from './pages/MealPage';
 import EditMealPage from './pages/EditMealPage';
 import NotFoundPage from './pages/NotFoundPage';
-import RegisterPanel from './components/Register';
-import LoginPanel from './components/Login';
+import Register from './components/Register';
+import Login from './components/Login';
+import BrowseMeals from './components/BrowseMeals';
 
 function App () {
 
@@ -32,9 +33,11 @@ function App () {
           path='/edit-meal/:id'
           element={<EditMealPage  />}
         />
-        <Route path='/login' element={ <LoginPanel /> } />
-        <Route path='/register' element={ <RegisterPanel /> } />
+        <Route path='/login' element={ <Login /> } />
+        <Route path='/register' element={ <Register /> } />
+        <Route path='/browse' element={ <BrowseMeals /> } />
         <Route path="*" element={<NotFoundPage /> } />
+    
 
 
       </Route>

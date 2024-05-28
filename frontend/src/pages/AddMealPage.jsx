@@ -20,6 +20,7 @@ const AddMealPage = () => {
         type: '',
         ingredients: ['', '', ''],
         recipe: '',
+        user_email: user.email,
     })
 
     const { meal_name, type, ingredients, recipe } = mealData

@@ -18,12 +18,12 @@ const getAllMeals = async (token) => {
       Authorization: `Bearer ${token}`,
     },
   }
-  console.log('inside getAllMeals')
   const response = await axios.get(API_URL, config)
   return response.data
 }
 
 const deleteMeal = async (mealId, token) => {
+  console.log('mealService deleteMeal function fired')
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -33,24 +33,23 @@ const deleteMeal = async (mealId, token) => {
   return response.data
 }
 
-const getMeal = async (mealId, token) => {
+const browseMeals = async (token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
-    }
+    },
   }
-  const response = await axios.get(API_URL + mealId, config)
-  console.log("Response inside getMeal service", response.data)
+  const response = await axios.get(API_URL + 'browse', config)
+  console.log(response.data)
   return response.data
 }
-
 
 
 const mealService = {
     createMeal,
     getAllMeals,
     deleteMeal,
-    getMeal
+    browseMeals,
   }
   
 export default mealService

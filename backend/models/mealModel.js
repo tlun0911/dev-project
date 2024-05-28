@@ -8,6 +8,7 @@ const mealSchema = mongoose.Schema(
             required: true,
             ref: 'User'
         },
+        user_email: String,
         type: {
             type: String
         },

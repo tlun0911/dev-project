@@ -1,4 +1,5 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSelector } from '@reduxjs/toolkit';
 import mealService from './mealService';
 
 const initialState = {
@@ -8,6 +9,34 @@ const initialState = {
     isLoading: false,
     message: ''
 }
+
+
+export const selectAllMeals = (state) => state.meal.meals;
+
+export const selectMealById = (mealId) =>
+  createSelector([selectAllMeals], (meals) =>
+    meals.find((meal) => meal._id === mealId)
+  );
+
+//Fetch all non-user meals to browse
+
+export const browseMeals = createAsyncThunk(
+  'meals/browse',
+  async(_, thunkAPI) => {
+      try {
+          const token = thunkAPI.getState().auth.user.token
+          return await mealService.browseMeals(token)
+      } catch (error) {
+          const message =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString()
+        return thunkAPI.rejectWithValue(message)
+      }
+  }
+)
 
 //Create new meal
 export const createMeal = createAsyncThunk('meals/create',
@@ -46,15 +75,13 @@ export const getAllMeals = createAsyncThunk(
     }
 )
 
-export const getMeal = createAsyncThunk(
-    'meals/getMeal',
+export const deleteMeal = createAsyncThunk(
+    'meals/deleteMeal',
     async(mealId, thunkAPI) => {
+      console.log('mealSlice deleteMeal function fired')
         try {
-            console.log('Inside getMeal slice function')
             const token = thunkAPI.getState().auth.user.token
-            data = await mealService.getMeal(mealId, token)
-            console.log(data)
-            return data
+            return await mealService.deleteMeal(mealId, token)
         } catch (error) {
             const message =
             (error.response &&
@@ -102,15 +129,28 @@ export const mealSlice = createSlice({
                 state.isError = true
                 state.message = action.payload
               })
-            .addCase(getMeal.pending, (state) => {
+            .addCase(deleteMeal.pending, (state) => {
                 state.isLoading = true
             })
-            .addCase(getMeal.fulfilled, (state, action) => {
+            .addCase(deleteMeal.fulfilled, (state, action) => {
                 state.isLoading = false
                 state.isSuccess = true
                 state.meals = action.payload
             })
-            .addCase(getMeal.rejected, (state, action) => {
+            .addCase(deleteMeal.rejected, (state, action) => {
+                state.isLoading = false
+                state.isError = true
+                state.message = action.payload
+            })
+            .addCase(browseMeals.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(browseMeals.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.isSuccess = true
+                state.meals = action.payload
+            })
+            .addCase(browseMeals.rejected, (state, action) => {
                 state.isLoading = false
                 state.isError = true
                 state.message = action.payload
