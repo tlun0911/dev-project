@@ -15,10 +15,9 @@ import NotFoundPage from './pages/NotFoundPage';
 import Register from './components/Register';
 import Login from './components/Login';
 import BrowseMeals from './components/BrowseMeals';
+import PlanPage from './pages/PlanPage';
 
 function App () {
-
-
 
   const router = createBrowserRouter(
     createRoutesFromElements(
@@ -36,6 +35,7 @@ function App () {
         <Route path='/login' element={ <Login /> } />
         <Route path='/register' element={ <Register /> } />
         <Route path='/browse' element={ <BrowseMeals /> } />
+        <Route path='/plans' element={<PlanPage />} />
         <Route path="*" element={<NotFoundPage /> } />
     
 

@@ -41,6 +41,7 @@ const NavBar = () => {
                     <Nav.Link as={NavLink} to="/meals" className='nav-link' activeclassname='active'>Meals</Nav.Link>
                     <Nav.Link as={NavLink} to="/add-meal" className='nav-link' activeclassname='active'>Add Meal</Nav.Link>
                     <Nav.Link as={NavLink} to="/browse" className='nav-link' activeclassname='active'>Browse Other User Meals</Nav.Link>
+                    <Nav.Link as={NavLink} to="/plans" className='nav-link' activeclassname='active'>Weekly Plan</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
              

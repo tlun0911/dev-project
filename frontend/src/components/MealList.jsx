@@ -30,7 +30,7 @@ const MealList = () => {
   }, [isError, message]);
 
   return (
-    <div className='container'>
+    <div className='d-flex p-2 justify-content-center'>
       {isLoading ? (
         <h3>Loading...</h3>
       ) : meals.length > 0 ? (

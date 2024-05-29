@@ -2,7 +2,7 @@ import React from 'react'
 
 const Hero = () => {
   return (
-    
+    <div className="container">
     <section className="bg-primary py-4 mb-2">
         <div className="container-xl mx-auto px-3 px-sm-4 px-lg-5 d-flex flex-column align-items-center">
             <div className="text-center">
@@ -17,6 +17,7 @@ const Hero = () => {
             </div>
         </div>
     </section>
+    </div>
   )
 }
 

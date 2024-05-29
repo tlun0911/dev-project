@@ -15,6 +15,10 @@ const mealSchema = mongoose.Schema(
         meal_name: String,
         ingredients: [String],
         recipe: String,
+        favorite: {
+            type: Boolean,
+            default: false
+        }
 
 
     },
