@@ -38,10 +38,15 @@ const NavBar = () => {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="ml-auto">
                     <Nav.Link as={NavLink} to="/" className='nav-link' activeclassname='active'>Home</Nav.Link>
-                    <Nav.Link as={NavLink} to="/meals" className='nav-link' activeclassname='active'>Meals</Nav.Link>
-                    <Nav.Link as={NavLink} to="/add-meal" className='nav-link' activeclassname='active'>Add Meal</Nav.Link>
-                    <Nav.Link as={NavLink} to="/browse" className='nav-link' activeclassname='active'>Browse Other User Meals</Nav.Link>
-                    <Nav.Link as={NavLink} to="/plans" className='nav-link' activeclassname='active'>Weekly Plan</Nav.Link>
+                    <NavDropdown title="Meals" id="basic-nav-dropdown">
+                      <NavDropdown.Item as={NavLink} to="/meals" className='nav-link' activeclassname='active'>Meals</NavDropdown.Item>
+                      <NavDropdown.Item as={NavLink} to="/add-meal" className='nav-link' activeclassname='active'>Add Meal</NavDropdown.Item>
+                      <NavDropdown.Item as={NavLink} to="/browse" className='nav-link' activeclassname='active'>Browse Other User Meals</NavDropdown.Item>
+                    </NavDropdown>
+                    <NavDropdown title="Meal Plan" id="basic-nav-dropdown">
+                      <NavDropdown.Item as={NavLink} to="/plans" className='nav-link' activeclassname='active'>Weekly Plan</NavDropdown.Item>
+                      <NavDropdown.Item as={NavLink} to="/plans/create" className='nav-link' activeclassname='active'>Create New Plan</NavDropdown.Item>
+                    </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
              

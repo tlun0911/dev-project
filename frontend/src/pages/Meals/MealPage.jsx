@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaArrowLeft, FaMapMarker } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { selectMealById, deleteMeal, getAllMeals } from '../features/meals/mealSlice'
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { selectMealById, deleteMeal, getAllMeals } from '../../features/meals/mealSlice'
+import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
+import Spinner from '../../components/Spinner';
 
 
 const MealPage = () => {
@@ -14,13 +14,14 @@ const MealPage = () => {
     const { id } = useParams();
     const mealSelector = selectMealById(id);
     const meal = useSelector((state) => mealSelector(state));
+    const status = useSelector((state) => state.meal)
 
 
     const { user } = useSelector((state) => state.auth)
 
     useEffect(() => {
       // Fetch all meals when the component mounts
-      if (!meal) {
+      if (meal.status === 'idle') {
         dispatch(getAllMeals());
       }
     }, [dispatch, meal]);
@@ -49,6 +50,10 @@ const MealPage = () => {
       let formatted = upperLetter + remaining;
 
       return formatted;
+  }
+
+  if (status === 'loading') {
+    return <Spinner />;
   }
 
   if (!meal) {
@@ -106,7 +111,7 @@ const MealPage = () => {
                     {meal.ingredients.map((ingredient, index) => (
                         <li key={index} className='list-group-item list-group-item-dark'>{formatText(ingredient)}</li>
                     ))}
-                </ol>             
+              </ol>             
 
                 <div className="card border-primary">
                   <h5 className="card-header bg-primary">Recipe</h5>

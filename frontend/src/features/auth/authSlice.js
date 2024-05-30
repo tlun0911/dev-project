@@ -2,15 +2,15 @@ import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import authService from './authService';
 
 
-//Get user from local storage
+// Get user from local storage
 const user = JSON.parse(localStorage.getItem('user'));
+// Get userStatus from local storage
+const userStatus = localStorage.getItem('userStatus');
 
 
 const initialState = {
     user: user ? user : null,
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
+    userStatus: userStatus ? userStatus : 'idle',
     message: ''
 }
 
@@ -51,9 +51,7 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         reset: (state) => {
-            state.isLoading = false
-            state.isError = false
-            state.isError = false
+            
             state.message=''
         }
 
@@ -61,35 +59,41 @@ export const authSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(register.pending, (state) => {
-                state.isLoading = true
+                state.userStatus = 'idle'
+                localStorage.setItem('userStatus', 'loading');
             })
             .addCase(register.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                state.user = action.payload
+                state.userStatus = 'succeeded';
+                localStorage.setItem('userStatus', 'succeeded');
+                state.user = action.payload;
             })
             .addCase(register.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
-                state.message = action.payload
-                state.user = null
+                state.userStatus = 'failed';
+                localStorage.setItem('userStatus', 'failed');
+                state.message = action.payload;
+                state.user = null;
+                localStorage.removeItem('user')
             })
             .addCase(login.pending, (state) => {
-                state.isLoading = true
+                state.userStatus = 'loading';
+                localStorage.setItem('userStatus', 'loading');
             })
             .addCase(login.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
-                state.user = action.payload
+                state.userStatus = 'succeeded';
+                localStorage.setItem('userStatus', 'succeeded');
+                state.user = action.payload;
             })
             .addCase(login.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
-                state.message = action.payload
-                state.user = null
+                state.userStatus = 'failed';
+                localStorage.setItem('userStatus', 'failed');
+                state.message = action.payload;
+                state.user = null;
+                localStorage.removeItem('user');
             })
             .addCase(logout.fulfilled, (state) => {
-                state.user=null
+                state.userStatus = 'idle';
+                localStorage.setItem('userStatus', 'idle');
+                state.user = null;
             })
     }
 

@@ -26,4 +26,10 @@
 .navbar-nav .dropdown-menu {
     right:0;
     left: auto;
+    
+}
+
+.navbar-nav .dropdown-menu.active {
+    font-weight:500;
+    text-decoration: underline;    
 }

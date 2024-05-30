@@ -40,7 +40,7 @@ const browseMeals = async (token) => {
     },
   }
   const response = await axios.get(API_URL + 'browse', config)
-  console.log(response.data)
+  
   return response.data
 }
 

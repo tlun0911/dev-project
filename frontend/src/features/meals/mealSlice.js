@@ -1,12 +1,10 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { createSelector } from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, createSelector} from '@reduxjs/toolkit';
 import mealService from './mealService';
 
 const initialState = {
     meals: [],
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
+    status: 'idle',
+    error: null,
     message: ''
 }
 
@@ -104,55 +102,47 @@ export const mealSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(createMeal.pending, (state) => {
-                state.isLoading = true
+                state.status = 'loading';
             })
             .addCase(createMeal.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
+                state.status = 'succeeded';
                 state.meals.push(action.payload)
             })
             .addCase(createMeal.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
+                state.status = 'failed';
                 state.message = action.payload
             })
             .addCase(getAllMeals.pending, (state) => {
-                state.isLoading = true
+                state.status = 'loading';
               })
             .addCase(getAllMeals.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
+                state.status = 'succeeded'
                 state.meals = action.payload
               })
             .addCase(getAllMeals.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
+                state.status = 'failed'
                 state.message = action.payload
               })
             .addCase(deleteMeal.pending, (state) => {
-                state.isLoading = true
+                state.status = 'loading'
             })
             .addCase(deleteMeal.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
+                state.status = 'succeeded'
                 state.meals = action.payload
             })
             .addCase(deleteMeal.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
+                state.status = 'failed'
                 state.message = action.payload
             })
             .addCase(browseMeals.pending, (state) => {
-                state.isLoading = true
+                state.status = 'loading'
             })
             .addCase(browseMeals.fulfilled, (state, action) => {
-                state.isLoading = false
-                state.isSuccess = true
+                state.status = 'succeeded'
                 state.meals = action.payload
             })
             .addCase(browseMeals.rejected, (state, action) => {
-                state.isLoading = false
-                state.isError = true
+                state.status = 'failed'
                 state.message = action.payload
             })
     }

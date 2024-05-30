@@ -1,5 +1,5 @@
 import React from 'react'
-import MealList from '../components/MealList'
+import MealList from '../../components/MealList'
 
 const MealsPage = () => {
   return (

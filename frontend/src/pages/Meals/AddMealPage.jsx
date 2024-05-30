@@ -2,25 +2,25 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify';
-import { createMeal }  from '../features/meals/mealSlice'
+import { createMeal }  from '../../features/meals/mealSlice'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup'
 import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import { FaPlus } from 'react-icons/fa6'
-import { reset } from '../features/auth/authSlice'
+import { reset } from '../../features/auth/authSlice'
 import './AddMealPage.css';
 
 const AddMealPage = () => {
 
-    const { user } = useSelector((state) => state.auth)
+    const { user, userStatus } = useSelector((state) => state.auth)
 
     const [mealData, setMealData] = useState({
         meal_name: '',
         type: '',
         ingredients: ['', '', ''],
         recipe: '',
-        user_email: user.email,
+        user_email: user ? user.email : '',
     })
 
     const { meal_name, type, ingredients, recipe } = mealData
@@ -28,19 +28,17 @@ const AddMealPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { meals, isLoading, isError, isSuccess, message } = useSelector(
+    const { meals, status, message } = useSelector(
         (state) => state.meal
       )
 
-    useEffect(() => {
-  
+    useEffect(() => {  
 
-    if (!user) {
-        navigate('/login')
-    }
+       if (!user) {
+            navigate('/login');
+        }    
     
-    dispatch(reset())
-    }, [user, navigate, isError, message, dispatch])
+    }, [user, navigate, userStatus, message, dispatch])
 
 
     const addInputField = () => {

@@ -3,13 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { reset, getAllMeals } from '../features/meals/mealSlice';
 import Meal from './Meal';
+import Spinner from './Spinner';
 
 const MealList = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { meals, isLoading, isError, isSuccess, message } = useSelector(
+  const { meals, status, error, message } = useSelector(
     (state) => state.meal
   );
 
@@ -21,19 +22,16 @@ const MealList = () => {
     }
 
 
-  }, [user, navigate, dispatch, isSuccess, isError]);
+  }, [user, navigate, dispatch]);
 
-  useEffect(() => {
-    if (isError) {
-      console.log(message);
-    }
-  }, [isError, message]);
+
+  if (status === 'loading') {
+    return <Spinner />;
+  }
 
   return (
-    <div className='d-flex p-2 justify-content-center'>
-      {isLoading ? (
-        <h3>Loading...</h3>
-      ) : meals.length > 0 ? (
+    <div className='container'>
+      {meals.length > 0 ? (
         <div className='row row-cols-2'>
           {meals.map((meal) => (
             <Meal key={meal._id} meal={meal} user={user} />

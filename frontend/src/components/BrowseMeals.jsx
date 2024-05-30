@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { reset, browseMeals } from '../features/meals/mealSlice'
+import Spinner from "./Spinner";
 import Meal from "./Meal";
 
 const BrowseMeals = () => {
@@ -9,8 +10,8 @@ const BrowseMeals = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
   
-    const { user } = useSelector((state) => state.auth);
-    const { meals, isLoading, isError, isSuccess, message } = useSelector(
+    const { user, userStatus } = useSelector((state) => state.auth);
+    const { meals, status, error, message } = useSelector(
       (state) => state.meal
     );
 
@@ -23,14 +24,16 @@ const BrowseMeals = () => {
         }
 
 
-    }, [user, navigate, dispatch, isSuccess, isError]);
+    }, [user, navigate, dispatch]);
+
+    if (status === 'loading') {
+      return <Spinner />;
+    }
 
   return (
     
     <div className='container'>
-      {isLoading ? (
-        <h3>Loading...</h3>
-      ) : meals.length > 0 ? (
+      {meals.length > 0 ? (
         <div className='row row-cols-2'>
           {meals.map((meal) => (
             <Meal key={meal._id} meal={meal} />

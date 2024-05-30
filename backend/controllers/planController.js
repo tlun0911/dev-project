@@ -17,21 +17,23 @@ const getPlans = asyncHandler(async (req, res) => {
 // @route    POST /api/plans
 // @access   Private
 const createWeeklyMealPlan = async (req, res) => {
+
     try {
-        const { weekStartDate, meals } = req.body; // Destructure required fields from the request body
+        const { weekStartDate, days } = req.body; // Destructure required fields from the request body
+
 
         // Create a new WeeklyMealPlan instance
         const newWeeklyMealPlan = new Plan({
             user: req.user.id, // Ensure the user ID is a valid ObjectId
             weekStartDate: new Date(weekStartDate), // Ensure the date is properly formatted
             days: {
-                monday: { meal: meals.monday },
-                tuesday: { meal: meals.tuesday },
-                wednesday: { meal: meals.wednesday },
-                thursday: { meal: meals.thursday },
-                friday: { meal: meals.friday },
-                saturday: { meal: meals.saturday },
-                sunday: { meal: meals.sunday },
+                monday: { meal: days.monday },
+                tuesday: { meal: days.tuesday },
+                wednesday: { meal: days.wednesday },
+                thursday: { meal: days.thursday },
+                friday: { meal: days.friday },
+                saturday: { meal: days.saturday },
+                sunday: { meal: days.sunday },
             }
         });
 

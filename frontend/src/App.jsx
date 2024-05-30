@@ -7,15 +7,16 @@ import {
 import MainLayout from './layouts/MainLayout';
 import './App.css'
 import Homepage from './pages/Homepage';
-import AddMealPage from './pages/AddMealPage';
-import MealsPage from './pages/MealsPage';
-import MealPage from './pages/MealPage';
-import EditMealPage from './pages/EditMealPage';
+import AddMealPage from './pages/Meals/AddMealPage';
+import MealsPage from './pages/Meals/MealsPage';
+import MealPage from './pages/Meals/MealPage';
+import EditMealPage from './pages/Meals/EditMealPage';
 import NotFoundPage from './pages/NotFoundPage';
 import Register from './components/Register';
 import Login from './components/Login';
 import BrowseMeals from './components/BrowseMeals';
-import PlanPage from './pages/PlanPage';
+import PlanPage from './pages/Plans/PlanPage';
+import AddPlanPage from './pages/Plans/AddPlanPage';
 
 function App () {
 
@@ -36,6 +37,7 @@ function App () {
         <Route path='/register' element={ <Register /> } />
         <Route path='/browse' element={ <BrowseMeals /> } />
         <Route path='/plans' element={<PlanPage />} />
+        <Route path='/plans/create' element={<AddPlanPage />} />
         <Route path="*" element={<NotFoundPage /> } />
     
 

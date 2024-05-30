@@ -1,10 +1,9 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
-import { createSelector } from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, createSelector} from '@reduxjs/toolkit';
 import planService from '../plans/planService'
 
 // Initial state
 const initialState = {
-    mealPlan: {},
+    mealPlan: [],
     status: 'idle',
     error: null
 };
@@ -33,7 +32,7 @@ export const createPlan = createAsyncThunk('plans/createPlan',
     async(planData, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
-            return await planService.createPlan(mealData, token)
+            return await planService.createPlan(planData, token)
         } catch (error) {
             const message =
             (error.response &&
