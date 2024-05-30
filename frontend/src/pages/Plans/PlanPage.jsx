@@ -54,23 +54,25 @@ const PlanPage = () => {
     <div className='container'>
     <h2 className='bg-primary'>Meal Plans</h2>
     {mealPlans.map(plan => (
-        <div key={plan._id}>
+        <div className="mb-3" key={plan._id}>
             <h3>Week starting: {new Date(plan.weekStartDate).toLocaleDateString()}</h3>
             <div className="accordion" id={plan._id}>
                 <div className="accordion-item">
                 {Object.entries(plan.days).map(([day, { meal }]) => {
                     const mealDetails = getMealDetails(meal);
+                    console.log(day)
+                    console.log(mealDetails)
                     return (
                         <div className="accordion-item" key={day}>
                         <h2 className="accordion-header">
                           <button className="accordion-button" type="button" 
-                          data-bs-toggle="collapse" data-bs-target={`#collapse${day}`} 
-                          aria-expanded="true" aria-controls={`collapse${day}`}
+                          data-bs-toggle="collapse" data-bs-target={`#collapse${plan._id}${day}`} 
+                          aria-expanded="true" aria-controls={`collapse${plan._id}${day}`}
                           >
                             {formatText(day)} -  {mealDetails ? mealDetails.meal_name : 'No meal planned'}
                           </button>
                         </h2>
-                        <div id={`collapse${day}`} className="accordion-collapse collapse" data-bs-parent={`#${plan._id}`}>
+                        <div id={`collapse${plan._id}${day}`} className="accordion-collapse collapse" data-bs-parent={`#${plan._id}`}>
                           <div className="accordion-body">
                             {mealDetails ? (
                             <ol className='list-group list-group-numbered mb-3'>

@@ -94,7 +94,7 @@ const AddPlanPage = () => {
                     onChange={(e) => setWeekEnding(e.target.value)} />
             </Form.Group>
             <Form.Group>
-                {Object.entries(newMeals).map(([day, meal]) => (
+                {Object.entries(newMeals).map(([day]) => (
                     <InputGroup className="mb-3" key={day}>
                     <InputGroup.Text id="basic-addon3">
                         {formatText(day)}
