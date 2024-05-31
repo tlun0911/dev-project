@@ -4,6 +4,8 @@ import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { login, reset } from '../features/auth/authSlice'
+import {reset as mealReset } from '../features/meals/mealSlice'
+import { reset as planReset } from '../features/plans/planSlice'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -50,12 +52,14 @@ const Login = () => {
     }
 
     dispatch(login(userData))
+    dispatch(planReset)
+    dispatch(mealReset)
   }
 
 
 
   return (
-    <>
+    <div className='container'>
       <section className='heading'>
         <h1>
           <FaSignInAlt /> Login
@@ -96,7 +100,7 @@ const Login = () => {
         </form>
       </section>
     
-    </>
+    </div>
   )
 }
 

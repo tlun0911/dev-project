@@ -10,6 +10,7 @@ import './NavBar.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice'
 import { reset as mealReset} from '../features/meals/mealSlice'
+import { reset as planReset } from '../features/plans/planSlice';
 
 
 const NavBar = () => {
@@ -22,6 +23,7 @@ const NavBar = () => {
     dispatch(logout())
     dispatch(reset())
     dispatch(mealReset())
+    dispatch(planReset())
     navigate('/')
   }
 
