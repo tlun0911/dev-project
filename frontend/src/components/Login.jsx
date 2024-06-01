@@ -52,8 +52,8 @@ const Login = () => {
     }
 
     dispatch(login(userData))
-    dispatch(planReset)
-    dispatch(mealReset)
+    dispatch(planReset())
+    dispatch(mealReset())
   }
 
 

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaArrowLeft, FaMapMarker } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { selectMealById, deleteMeal, getAllMeals } from '../../features/meals/mealSlice'
-import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Spinner from '../../components/Spinner';
 
 
@@ -14,18 +14,23 @@ const MealPage = () => {
     const { id } = useParams();
     const mealSelector = selectMealById(id);
     const meal = useSelector((state) => mealSelector(state));
-    const status = useSelector((state) => state.meal)
+    const status = useSelector((state) => state.meal.status)
+
 
 
     const { user } = useSelector((state) => state.auth)
 
     useEffect(() => {
       // Fetch all meals when the component mounts
-      if (meal.status === 'idle') {
+      if (status === 'idle') {
         dispatch(getAllMeals());
       }
+      window.scrollTo(0, 0);
     }, [dispatch, meal]);
     
+      const recipeStyle = {
+          whiteSpace: 'pre-line'
+      };
 
 
     const onDeleteClick = (mealId) => {
@@ -116,17 +121,19 @@ const MealPage = () => {
                 <div className="card border-primary">
                   <h5 className="card-header bg-primary">Recipe</h5>
                   <div className="card-body">
-                    <p className="card-text">{meal.recipe}</p>
+                    <p className="card-text" style={recipeStyle}>{meal.recipe}</p>
                   </div>
                 </div>
               </div>
+              {buttonArea}
             </div>
+            
 
           </div>
 
         </section>
 
-        {buttonArea}
+        
     </>
   )
 }

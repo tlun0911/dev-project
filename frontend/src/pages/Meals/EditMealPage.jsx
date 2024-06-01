@@ -1,18 +1,60 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Spinner from '../../components/Spinner';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMealById, getAllMeals, updateMeal } from '../../features/meals/mealSlice'
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import Button from 'react-bootstrap/Button'
+import Container from 'react-bootstrap/Container'
+import { FaPlus } from 'react-icons/fa6'
+import { toast } from 'react-toastify';
 
 
 const EditMealPage = () => {
-    const [mealName, setMealName] = useState(meal.meal_name);
-    const [ingredients, setIngredients] = useState(meal.ingredients);
-    const [recipe, setRecipe] = useState(meal.recipe);
-
     const navigate = useNavigate();
+    const dispatch = useDispatch()
+
     const { id } = useParams();
+    const mealSelector = selectMealById(id);
+    const meal = useSelector((state) => mealSelector(state));
+    const { user, userStatus } = useSelector((state) => state.auth)
+
+   
+    const {status, message } = useSelector((state) => state.meal)
+    const [mealData, setMealData] = useState({
+        meal_name: meal.meal_name,
+        type: meal.type,
+        ingredients: meal.ingredients,
+        recipe: meal.recipe,
+        user_email: user ? user.email : '',
+    })
+
+    const { meal_name, type, ingredients, recipe } = mealData
+
+    useEffect(() => {  
+
+        if (!user) {
+             navigate('/login');
+         }    
+     
+     }, [user, navigate, userStatus, message, dispatch])
+
+    const onChange = (e) => {
+    setMealData((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+    }))
+    }
+
+  
 
     const addInputField = () => {
-        setIngredients([...ingredients, '']);
-    };
+        setMealData({
+            ...mealData,
+            ingredients: [...mealData.ingredients, '']
+            });
+        };
 
     const handleIngredientChange = (index, event) => {
         const newIngredients = [...ingredients];
@@ -23,17 +65,11 @@ const EditMealPage = () => {
     const submitForm = (e) => {
         e.preventDefault();
 
-        const updatedMeal = {
-            id,
-            "type": meal.type,
-            "meal_name": mealName,
-            ingredients,
-            recipe,
-        }
+        dispatch(updateMeal({mealData: mealData, id: id}));
+        toast.success('Meal updated successfully!')
 
-        updateMealSubmit(updatedMeal);
-
-        return navigate(`/meals/${meal.id}`);
+        dispatch(getAllMeals())
+        return navigate('/meals');
 
 
     }
@@ -43,70 +79,70 @@ const EditMealPage = () => {
     <>
 
     <section className="bg-primary py-5 mb-4">
-            <div className="container mx-auto py-5 custom-max-width">
-                <div className="bg-light px-4 py-4 mb-4 shadow rounded border m-4 m-md-0">
-                    <form onSubmit={submitForm}>
-                    <h2>Update Meal</h2>
+    <Form 
+        onSubmit={submitForm}
+        className="container mx-auto mt-3 bg-light shadow rounded border">
 
-                    <div className='mb-4'>
-                        <label className="d-block text-dark fw-bold mb-2">
-                            Meal Name
-                        <input 
-                            type='text'
-                            id='meal_name'
-                            name='meal_name'
-                            className="form-control mb-2"
-                            placeholder={mealName}
-                            required
-                            value={mealName}
-                            onChange={(e) => setMealName(e.target.value)}
-                        />
-                        </label>
-                    </div>
-                    <div className='mb-4'>
-                        <label className="d-block text-dark fw-bold mb-2">
-                            Ingredients
-                        {ingredients.map((ingredient, index) => (
-                            <div key={index}>
-                                <div className="input-group mb-3">
-                                    <span className="input-group-text">{`Ingredient ${index+1}`}</span>
-                                    <input
-                                        type='text'
-                                        id={index}
-                                        name='ingredient'
-                                        className="form-control"
-                                        placeholder={ingredient}
-                                        required
-                                        value={ingredient}
-                                        onChange={(e) => handleIngredientChange(index, e)}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                        </label>
-                        
-                        <button type="button" className="btn btn-primary" onClick={addInputField}>Add Additional Ingredient</button> 
-                    </div>
+        <Form.Group className="mb-3 border-primary">
+            <Form.Label className='h4 my-2'>Meal Name</Form.Label>
+            <Form.Control type="text" 
+            className='border-primary'
+            name="meal_name"
+            value={meal_name}
+            required 
+            onChange={onChange}/>
+        </Form.Group>
 
-                    <div className="mb-3">
-                        <label htmlFor="recipe-input" className="form-label fw-bold">Recipe Input</label>
-                        <textarea className="form-control"
-                                    id="recipe-input" 
-                                    rows="3"
-                                    
-                                    value={recipe}
-                                    onChange={(e)=> setRecipe(e.target.value)}
-                                    />
-                    </div>
+        <Form.Select aria-label="Default select example" 
+            id="type"
+            className='border-primary mb-3'
+            required
+            name="type"
+            onChange={onChange}>
+            <option>Select Meal Type</option>
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+        </Form.Select>
 
-                    <div className='d-flex justify-content-center'>
-                        <button type="submit" className="btn btn-primary">Update</button>
-                    </div>
+        {mealData.ingredients.map((ingredient, index) => (
+            <InputGroup className="mb-3" key={index}>
+                <InputGroup.Text id="inputGroup-sizing-default">
+                {`Ingredient ${index+1}`}
+                </InputGroup.Text>
+                <Form.Control
+                aria-label="Default"
+                aria-describedby="inputGroup-sizing-default"
+                className='border-primary'
+                type='text'
+                required
+                id={index}
+                name='ingredient'
+                value={ingredient}
+                onChange={(e) => handleIngredientChange(index, e)}
+                />
+            </InputGroup>
+            ))}
 
-                    </form>
-                </div>
+        <Button variant="outline-primary" className='mb-3' onClick={addInputField}>
+            <FaPlus />
+        </Button>
 
-            </div>
+        <InputGroup className='border-primary mb-3'>
+            <InputGroup.Text>Enter Recipe:</InputGroup.Text>
+            <Form.Control as="textarea"
+            required
+            id="recipe"
+            value={recipe}
+            rows='4'
+            name="recipe"
+            onChange={onChange} 
+            aria-label="With textarea" />
+        </InputGroup>
+        <Container className='d-flex justify-content-center mb-3'>
+            <Button variant="primary" className='' type="submit" value="submit">Submit</Button>
+        </Container>
+    </Form>
 
 
         </section>

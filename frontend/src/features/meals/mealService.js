@@ -23,13 +23,23 @@ const getAllMeals = async (token) => {
 }
 
 const deleteMeal = async (mealId, token) => {
-  console.log('mealService deleteMeal function fired')
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   }
   const response = await axios.delete(API_URL + mealId, config)
+  return response.data
+}
+
+//Updates meal with user changes
+const updateMeal = async (mealData, id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+  const response = await axios.put(API_URL + id, mealData, config)
   return response.data
 }
 
@@ -50,6 +60,7 @@ const mealService = {
     getAllMeals,
     deleteMeal,
     browseMeals,
+    updateMeal,
   }
   
 export default mealService

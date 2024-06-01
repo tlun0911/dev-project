@@ -74,14 +74,20 @@ const PlanPage = () => {
                         </h2>
                         <div id={`collapse${plan._id}${day}`} className="accordion-collapse collapse" data-bs-parent={`#${plan._id}`}>
                           <div className="accordion-body">
-                            {mealDetails ? (
-                            <ol className='list-group list-group-numbered mb-3'>
-                                {mealDetails.ingredients.map((ingredient, index) => (
-                                <li key={index} className='list-group-item list-group-item-dark'>{formatText(ingredient)}</li>
-                                ))}
-                            </ol>
-                            ) : ( <p>No ingredients available</p>
-                        )}
+                            <div className='container'>
+                                <div className='row'>
+                                    <div className='col'>
+                                        {mealDetails ? (
+                                        <ol className='list-group list-group-numbered mb-3'>
+                                            {mealDetails.ingredients.map((ingredient, index) => (
+                                            <li key={index} className='list-group-item list-group-item-dark'>{formatText(ingredient)}</li>
+                                            ))}
+                                        </ol>
+                                        ) : ( <p>No ingredients available</p>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                           </div>
                         </div>
                       </div>

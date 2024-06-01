@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import {createSlice, createAsyncThunk, createSelector} from '@reduxjs/toolkit';
 import authService from './authService';
 
 
@@ -13,6 +13,7 @@ const initialState = {
     userStatus: userStatus ? userStatus : 'idle',
     message: ''
 }
+
 
 //Register user
 export const register = createAsyncThunk('auth/register',

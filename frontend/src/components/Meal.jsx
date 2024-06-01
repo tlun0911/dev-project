@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 
 
-const Meal = ({meal, user}) => {
+const Meal = ({meal}) => {
 
     const formatText = (text) =>{
 
@@ -13,6 +13,7 @@ const Meal = ({meal, user}) => {
 
         return formatted;
     }
+
 
   return (
     <div className='row row-cols-2'>

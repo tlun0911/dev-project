@@ -19,7 +19,7 @@ export const selectMealById = (mealId) =>
 //Fetch all non-user meals to browse
 
 export const browseMeals = createAsyncThunk(
-  'meals/browse',
+  'meals/browseMeals',
   async(_, thunkAPI) => {
       try {
           const token = thunkAPI.getState().auth.user.token
@@ -37,7 +37,7 @@ export const browseMeals = createAsyncThunk(
 )
 
 //Create new meal
-export const createMeal = createAsyncThunk('meals/create',
+export const createMeal = createAsyncThunk('meals/createMeal',
     async(mealData, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
@@ -56,7 +56,7 @@ export const createMeal = createAsyncThunk('meals/create',
 
 //Get meals
 export const getAllMeals = createAsyncThunk(
-    'meals/getAll',
+    'meals/getAllMeals',
     async(_, thunkAPI) => {
         try {
             const token = thunkAPI.getState().auth.user.token
@@ -72,6 +72,25 @@ export const getAllMeals = createAsyncThunk(
         }
     }
 )
+
+//Update meal
+export const updateMeal = createAsyncThunk('meals/updateMeal',
+    async({mealData, id}, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await mealService.updateMeal(mealData, id, token)
+        } catch (error) {
+            const message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString()
+          return thunkAPI.rejectWithValue(message)            
+        }
+    }
+)
+
 
 export const deleteMeal = createAsyncThunk(
     'meals/deleteMeal',
@@ -142,6 +161,17 @@ export const mealSlice = createSlice({
                 state.meals = action.payload
             })
             .addCase(browseMeals.rejected, (state, action) => {
+                state.status = 'failed'
+                state.message = action.payload
+            })
+            .addCase(updateMeal.pending, (state) => {
+              state.status = 'loading'
+            })
+            .addCase(updateMeal.fulfilled, (state, action) => {
+                state.status = 'succeeded'
+                state.meals = action.payload
+            })
+            .addCase(updateMeal.rejected, (state, action) => {
                 state.status = 'failed'
                 state.message = action.payload
             })
