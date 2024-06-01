@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getPlan } from "../../features/plans/planSlice";
+import { toast } from "react-toastify";
+import { getPlan, deletePlan } from "../../features/plans/planSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 import {
   selectMealById,
@@ -19,7 +20,7 @@ const PlanPage = () => {
   const mealPlanStatus = useSelector((state) => state.plans.status);
   const mealStatus = useSelector((state) => state.meal.status);
   const error = useSelector((state) => state.plans.error || state.meal.error);
-  
+
   useEffect(() => {
     if (!user) {
       navigate("/login");
@@ -40,6 +41,22 @@ const PlanPage = () => {
     return <div>Error: {error}</div>;
   }
 
+  const recipeStyle = {
+    whiteSpace: "pre-line",
+  };
+
+  const handleDelete = (planId) => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this plan?"
+    );
+    if (!confirm) return;
+
+    dispatch(deletePlan(planId));
+
+    toast.success("Meal deleted successfully!");
+
+    navigate("/plans");
+  };
   const getMealDetails = (mealId) => meals.find((meal) => meal._id === mealId);
 
   const formatText = (text) => {
@@ -58,13 +75,21 @@ const PlanPage = () => {
         <div className="mb-3" key={plan._id}>
           <h3>
             Week starting: {new Date(plan.weekStartDate).toLocaleDateString()}
+            <span className="float-end">
+              <button
+                className="btn btn-primary mb-1 me-2"
+                onClick={() => handleDelete(plan._id)}
+                type="button"
+              >
+                Delete
+              </button>
+            </span>
           </h3>
           <div className="accordion border-primary border-2" id={plan._id}>
             <div className="accordion-item border-secondary border-2">
               {Object.entries(plan.days).map(([day, { meal }]) => {
                 const mealDetails = getMealDetails(meal);
-                console.log(day);
-                console.log(mealDetails);
+
                 return (
                   <div
                     className="accordion-item border-secondary border-1"
@@ -93,24 +118,34 @@ const PlanPage = () => {
                       <div className="accordion-body">
                         <div className="container">
                           <div className="row">
-                            <div className="col">
-                              {mealDetails ? (
-                                <ol className="list-group list-group-numbered mb-3">
-                                  {mealDetails.ingredients.map(
-                                    (ingredient, index) => (
-                                      <li
-                                        key={index}
-                                        className="list-group-item list-group-item-dark"
-                                      >
-                                        {formatText(ingredient)}
-                                      </li>
-                                    )
+                            {mealDetails?.ingredients?.length > 0 ? (
+                              <div className="row">
+                                <div className="col">
+                                  <ol className="list-group list-group-numbered mb-3">
+                                    {mealDetails.ingredients.map(
+                                      (ingredient, index) => (
+                                        <li
+                                          key={index}
+                                          className="list-group-item list-group-item-dark"
+                                        >
+                                          {formatText(ingredient)}
+                                        </li>
+                                      )
+                                    )}
+                                  </ol>
+                                </div>
+
+                                <div className="col">
+                                  {mealDetails.recipe && (
+                                    <p style={recipeStyle}>
+                                      {mealDetails.recipe}
+                                    </p>
                                   )}
-                                </ol>
-                              ) : (
-                                <p>No ingredients available</p>
-                              )}
-                            </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <p>No ingredients available</p>
+                            )}
                           </div>
                         </div>
                       </div>

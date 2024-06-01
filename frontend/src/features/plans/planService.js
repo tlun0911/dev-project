@@ -22,9 +22,21 @@ const getPlan = async (token) => {
   return response.data;
 };
 
+const deletePlan = async (planId, token) => {
+  console.log("inside deletePlan planService", planId);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.delete(`${API_URL}${planId}`, config);
+  return response.data;
+};
+
 const planService = {
   createPlan,
   getPlan,
+  deletePlan,
 };
 
 export default planService;

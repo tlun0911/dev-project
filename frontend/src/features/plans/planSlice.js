@@ -49,6 +49,26 @@ export const createPlan = createAsyncThunk(
     }
   }
 );
+// Async thunk for deleting a meal plan
+export const deletePlan = createAsyncThunk(
+  "plans/deletePlan",
+  async (planId, thunkAPI) => {
+    console.log("inside deletePlan, planSlice", planId)
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      await planService.deletePlan(planId, token);
+      return planId;
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 const mealPlanSlice = createSlice({
   name: "plans",
@@ -77,6 +97,19 @@ const mealPlanSlice = createSlice({
         state.mealPlan.push(action.payload);
       })
       .addCase(createPlan.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      })
+      .addCase(deletePlan.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(deletePlan.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.mealPlan = state.mealPlan.filter(
+          (plan) => plan._id !== action.payload
+        );
+      })
+      .addCase(deletePlan.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });

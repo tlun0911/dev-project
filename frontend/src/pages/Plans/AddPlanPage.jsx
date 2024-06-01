@@ -65,7 +65,6 @@ const AddPlanPage = () => {
 
   const handleDayInput = (e, day) => {
     const value = e.target.value;
-    console.log(value, day);
     setNewMeals((prevMeals) => ({
       ...prevMeals,
       [day]: value,

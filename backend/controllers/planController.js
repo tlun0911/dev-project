@@ -48,7 +48,24 @@ const createWeeklyMealPlan = async (req, res) => {
   }
 };
 
+// @desc     Delete a plan
+// @route    DELETE /api/plans/:id
+// @access   Private
+const deletePlan = asyncHandler(async (req, res) => {
+  const plan = await Plan.findById(req.params.id);
+  console.log("inside deletePlan, planController", plan)
+
+  if (plan) {
+    await plan.deleteOne();
+    res.status(200).json({ id: req.params.id });
+  } else {
+    res.status(404);
+    throw new Error("Plan not found");
+  }
+});
+
 module.exports = {
   createWeeklyMealPlan,
   getPlans,
+  deletePlan,
 };
