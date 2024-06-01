@@ -1,143 +1,142 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { FaArrowLeft, FaMapMarker } from 'react-icons/fa';
-import { toast } from 'react-toastify';
-import { selectMealById, deleteMeal, getAllMeals } from '../../features/meals/mealSlice'
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import Spinner from '../../components/Spinner';
-
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FaArrowLeft, FaMapMarker } from "react-icons/fa";
+import { toast } from "react-toastify";
+import {
+  selectMealById,
+  deleteMeal,
+  getAllMeals,
+} from "../../features/meals/mealSlice";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import Spinner from "../../components/Spinner";
 
 const MealPage = () => {
-    const navigate = useNavigate();
-    const dispatch = useDispatch()
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-    const { id } = useParams();
-    const mealSelector = selectMealById(id);
-    const meal = useSelector((state) => mealSelector(state));
-    const status = useSelector((state) => state.meal.status)
+  const { id } = useParams();
+  const mealSelector = selectMealById(id);
+  const meal = useSelector((state) => mealSelector(state));
+  const status = useSelector((state) => state.meal.status);
 
+  const { user } = useSelector((state) => state.auth);
 
+  useEffect(() => {
+    // Fetch all meals when the component mounts
+    if (status === "idle") {
+      dispatch(getAllMeals());
+    }
+    window.scrollTo(0, 0);
+  }, [dispatch, meal]);
 
-    const { user } = useSelector((state) => state.auth)
+  const recipeStyle = {
+    whiteSpace: "pre-line",
+  };
 
-    useEffect(() => {
-      // Fetch all meals when the component mounts
-      if (status === 'idle') {
-        dispatch(getAllMeals());
-      }
-      window.scrollTo(0, 0);
-    }, [dispatch, meal]);
-    
-      const recipeStyle = {
-          whiteSpace: 'pre-line'
-      };
+  const onDeleteClick = (mealId) => {
+    const confirm = window.confirm(
+      "Are you sure you want to delete this meal?"
+    );
 
+    if (!confirm) return;
 
-    const onDeleteClick = (mealId) => {
-      const confirm = window.confirm(
-        'Are you sure you want to delete this meal?'
-      );
-  
-      if (!confirm) return;
-      
-      dispatch(deleteMeal(id))
+    dispatch(deleteMeal(id));
 
-      toast.success('Meal deleted successfully!');
-  
-      navigate('/meals');
-    };
+    toast.success("Meal deleted successfully!");
 
-    const formatText = (text) =>{
+    navigate("/meals");
+  };
 
-      let firstLetter = text[0];
-      let remaining = text.slice(1);
-      let upperLetter = firstLetter.toUpperCase();        
-      let formatted = upperLetter + remaining;
+  const formatText = (text) => {
+    let firstLetter = text[0];
+    let remaining = text.slice(1);
+    let upperLetter = firstLetter.toUpperCase();
+    let formatted = upperLetter + remaining;
 
-      return formatted;
-  }
+    return formatted;
+  };
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return <Spinner />;
   }
 
   if (!meal) {
     return (
-        <div className="container mx-auto py-3 px-3">
-            <h2>Loading...</h2>
-            <Link to='/meals' className='btn btn-primary'>
-                <FaArrowLeft className='mr-2' /> Back to Meals
-            </Link>
-        </div>
+      <div className="container mx-auto py-3 px-3">
+        <h2>Loading...</h2>
+        <Link to="/meals" className="btn btn-primary">
+          <FaArrowLeft className="mr-2" /> Back to Meals
+        </Link>
+      </div>
     );
   }
 
-  let buttonArea
+  let buttonArea;
 
   if (user._id === meal.user) {
     buttonArea = (
-                <section className='d-flex justify-content-center p-3'> 
-                    <Link type="button"
-                      className="btn btn-primary m-2"
-                      to={`/edit-meal/${meal._id}`}>
-                      Edit Meal
-                    </Link>
-                    <button type="button"
-                      className="btn btn-primary m-2"
-                      onClick={() => onDeleteClick(meal._id)}>
-                      Delete Meal
-                    </button>
-                  </section>
-                  )
+      <section className="d-flex justify-content-center p-3">
+        <Link
+          type="button"
+          className="btn btn-primary m-2"
+          to={`/edit-meal/${meal._id}`}
+        >
+          Edit Meal
+        </Link>
+        <button
+          type="button"
+          className="btn btn-primary m-2"
+          onClick={() => onDeleteClick(meal._id)}
+        >
+          Delete Meal
+        </button>
+      </section>
+    );
   } else {
-    buttonArea = <div></div>
+    buttonArea = <div></div>;
   }
 
   return (
     <>
-        <section>
-          <div className="container mx-auto py-3 px-3">
-              <Link 
-                  to='/meals'
-                  type='button'
-                  className='btn btn-primary'
-              >
-                  <FaArrowLeft className='mr-2' /> Back to Meals
-              </Link>
-          </div>
-        </section>
-        <section className='bg-primary-50'>
-          <div className='container mx-auto py-2 px-4'>
-            <div className="card border-primary h-100">
-              <h5 className="card-header bg-primary">{meal.meal_name}</h5>
-              <div className="card-body">
+      <section>
+        <div className="container mx-auto py-3 px-3">
+          <Link to="/meals" type="button" className="btn btn-primary">
+            <FaArrowLeft className="mr-2" /> Back to Meals
+          </Link>
+        </div>
+      </section>
+      <section className="bg-primary-50">
+        <div className="container mx-auto py-2 px-4">
+          <div className="card border-primary h-100">
+            <h5 className="card-header bg-primary">{meal.meal_name}</h5>
+            <div className="card-body">
               <h5 className="card-title mb-3">Ingredients</h5>
-              <ol className='list-group list-group-numbered mb-3'>
-                    {meal.ingredients.map((ingredient, index) => (
-                        <li key={index} className='list-group-item list-group-item-dark'>{formatText(ingredient)}</li>
-                    ))}
-              </ol>             
+              <ol className="list-group list-group-numbered mb-3">
+                {meal.ingredients.map((ingredient, index) => (
+                  <li
+                    key={index}
+                    className="list-group-item list-group-item-dark"
+                  >
+                    {formatText(ingredient)}
+                  </li>
+                ))}
+              </ol>
 
-                <div className="card border-primary">
-                  <h5 className="card-header bg-primary">Recipe</h5>
-                  <div className="card-body">
-                    <p className="card-text" style={recipeStyle}>{meal.recipe}</p>
-                  </div>
+              <div className="card border-primary">
+                <h5 className="card-header bg-primary">Recipe</h5>
+                <div className="card-body">
+                  <p className="card-text" style={recipeStyle}>
+                    {meal.recipe}
+                  </p>
                 </div>
               </div>
-              {buttonArea}
             </div>
-            
-
+            {buttonArea}
           </div>
-
-        </section>
-
-        
+        </div>
+      </section>
     </>
-  )
-}
-
-
+  );
+};
 
 export default MealPage;
