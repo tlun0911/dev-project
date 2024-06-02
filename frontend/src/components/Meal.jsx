@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const Meal = ({ meal }) => {
+
+  const [seeAllIngredients, setSeeAllIngredients] = useState(false);
+
   const formatText = (text) => {
     let firstLetter = text[0];
     let remaining = text.slice(1);
@@ -10,6 +14,26 @@ const Meal = ({ meal }) => {
 
     return formatted;
   };
+
+  let ingredientsList
+
+  if(seeAllIngredients) {
+    ingredientsList = (
+    meal.ingredients.map((ingredient, index) => (
+      <li key={index} className="list-group-item bg-secondary">
+        {formatText(ingredient)}
+      </li>
+    ))
+    )      
+  } else {
+    ingredientsList = (
+      meal.ingredients.slice(0, 3).map((ingredient, index) => (
+        <li key={index} className="list-group-item bg-secondary">
+          {formatText(ingredient)}
+        </li>
+      ))
+    )
+  }
 
   return (
     <div className="row row-cols-2">
@@ -26,13 +50,19 @@ const Meal = ({ meal }) => {
             <h6 className="card-title mb-3">Ingredients</h6>
 
             <ol className="list-group list-group-numbered">
-              {meal.ingredients.map((ingredient, index) => (
-                <li key={index} className="list-group-item bg-secondary">
-                  {formatText(ingredient)}
-                </li>
-              ))}
+              {ingredientsList}            
             </ol>
-            <p className="card-text">Created by - {meal.user_email}</p>
+            <p className="card-text">Created by - {meal.user_email}
+              <span className="float-end">
+              <button
+                onClick={() => setSeeAllIngredients((prevState) => !prevState)}
+                className='btn btn-primary mb-1 me-2'
+              >
+                {seeAllIngredients ? 'Less' : 'More'}
+              </button>
+
+              </span>
+            </p>
             <Link
               to={`/meals/${meal._id}`}
               className="bg-primary text-white px-4 py-2 rounded text-center small"
