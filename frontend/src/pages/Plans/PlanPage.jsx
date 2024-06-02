@@ -3,13 +3,10 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { getPlan, deletePlan } from "../../features/plans/planSlice";
-import { useNavigate, useLocation } from "react-router-dom";
-import {
-  selectMealById,
-  deleteMeal,
-  getAllMeals,
-} from "../../features/meals/mealSlice";
+import { useNavigate } from "react-router-dom";
+import { getAllMeals } from "../../features/meals/mealSlice";
 import Spinner from "../../components/Spinner";
+import { sendEmail } from "../../features/helpers/sendEmail";
 
 const PlanPage = () => {
   const dispatch = useDispatch();
@@ -59,6 +56,15 @@ const PlanPage = () => {
   };
   const getMealDetails = (mealId) => meals.find((meal) => meal._id === mealId);
 
+  const emailPlan = async (plan) => {
+    try {
+      await sendEmail(user.email, plan, meals);
+      toast.success("Email sent successfully!");
+    } catch (error) {
+      toast.error("Error sending email");
+    }
+  };
+
   const formatText = (text) => {
     let firstLetter = text[0];
     let remaining = text.slice(1);
@@ -76,6 +82,10 @@ const PlanPage = () => {
           <h3>
             Week starting: {new Date(plan.weekStartDate).toLocaleDateString()}
             <span className="float-end">
+              <button className="btn btn-primary mb-1 me-2" 
+              type="button"
+              onClick={() => emailPlan(plan)}
+              >Email Plan</button>
               <button
                 className="btn btn-primary mb-1 me-2"
                 onClick={() => handleDelete(plan._id)}
