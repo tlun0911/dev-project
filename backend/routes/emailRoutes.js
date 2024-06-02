@@ -16,6 +16,7 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post('/', async (req, res) => {
+    console.log("inside email route", req.body);
     const { userEmail, emailBody} = req.body;
 
     const mailOptions = {

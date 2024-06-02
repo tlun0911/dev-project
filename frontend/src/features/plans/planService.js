@@ -23,7 +23,6 @@ const getPlan = async (token) => {
 };
 
 const deletePlan = async (planId, token) => {
-  console.log("inside deletePlan planService", planId);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,

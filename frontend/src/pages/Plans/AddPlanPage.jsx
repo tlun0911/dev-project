@@ -11,6 +11,7 @@ import {
   getAllMeals,
 } from "../../features/meals/mealSlice";
 import Spinner from "../../components/Spinner";
+import { toast } from "react-toastify";
 
 const AddPlanPage = () => {
   const dispatch = useDispatch();
@@ -78,6 +79,8 @@ const AddPlanPage = () => {
       days: newMeals,
     };
     dispatch(createPlan(newPlan));
+    toast.success("Plan created successfully!");
+    navigate("/plans");
   };
 
   return (

@@ -57,12 +57,15 @@ const PlanPage = () => {
   const getMealDetails = (mealId) => meals.find((meal) => meal._id === mealId);
 
   const emailPlan = async (plan) => {
-    try {
-      await sendEmail(user.email, plan, meals);
-      toast.success("Email sent successfully!");
-    } catch (error) {
-      toast.error("Error sending email");
-    }
+    const confirm = window.confirm("Are you sure you want to email this plan?");
+    if (!confirm) return;
+      try {
+        await sendEmail(user.email, plan, meals);
+        toast.success("Email sent successfully!");
+      } catch (error) {
+        toast.error("Error sending email");
+      }
+    
   };
 
   const formatText = (text) => {
@@ -82,10 +85,13 @@ const PlanPage = () => {
           <h3>
             Week starting: {new Date(plan.weekStartDate).toLocaleDateString()}
             <span className="float-end">
-              <button className="btn btn-primary mb-1 me-2" 
-              type="button"
-              onClick={() => emailPlan(plan)}
-              >Email Plan</button>
+              <button
+                className="btn btn-primary mb-1 me-2"
+                type="button"
+                onClick={() => emailPlan(plan)}
+              >
+                Email Plan
+              </button>
               <button
                 className="btn btn-primary mb-1 me-2"
                 onClick={() => handleDelete(plan._id)}
