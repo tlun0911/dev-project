@@ -18,9 +18,7 @@ const BrowseMeals = () => {
     } else {
       dispatch(browseMeals());
     }
-    return () => {
-      dispatch(reset());
-    };
+
   }, [user, navigate, dispatch]);
 
   if (status === "loading") {

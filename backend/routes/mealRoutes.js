@@ -6,13 +6,18 @@ const {
   updateMeal,
   deleteMeal,
   browseMeals,
+  addMealToUserCollection,
 } = require("../controllers/mealController");
 const { protect } = require("../middleware/authMiddleware");
 
-router.route("/").get(protect, getMeals).post(protect, createMeal);
+router.route("/:userid").get(protect, getMeals).post(protect, createMeal);
 
-router.route("/:id").delete(protect, deleteMeal).put(protect, updateMeal);
+router
+  .route("/:userid/:id")
+  .delete(protect, deleteMeal)
+  .put(protect, updateMeal)
+  .post(protect, addMealToUserCollection);
 
-router.route("/browse").get(protect, browseMeals);
+router.route("/:userid/browse").get(protect, browseMeals);
 
 module.exports = router;

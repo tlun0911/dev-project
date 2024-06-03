@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const API_URL = "/api/meals/";
+const API_URL = '/api/meals/';
+
+
 
 const createMeal = async (mealData, token) => {
   const config = {

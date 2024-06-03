@@ -3,6 +3,7 @@ import {
   createAsyncThunk,
   createSelector,
 } from "@reduxjs/toolkit";
+import axios from "axios";
 import mealService from "./mealService";
 
 const initialState = {
@@ -99,7 +100,6 @@ export const updateMeal = createAsyncThunk(
 export const deleteMeal = createAsyncThunk(
   "meals/deleteMeal",
   async (mealId, thunkAPI) => {
-    console.log("mealSlice deleteMeal function fired");
     try {
       const token = thunkAPI.getState().auth.user.token;
       return await mealService.deleteMeal(mealId, token);
@@ -112,6 +112,32 @@ export const deleteMeal = createAsyncThunk(
         error.toString();
       return thunkAPI.rejectWithValue(message);
     }
+  }
+);
+
+//Add meal to user collection
+export const addMealToUserCollection = createAsyncThunk(
+  "meals/addMealToUserCollection",
+  async (mealId, thunkAPI) => {
+    const token = thunkAPI.getState().auth.user.token;
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    try {
+      console.log("Inside addMealToUserCollection")
+      const response = await axios.post(`/api/meals/${auth.user._id}/${mealId}`, { mealId });
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+    return response.data;
   }
 );
 
@@ -175,6 +201,17 @@ export const mealSlice = createSlice({
         state.meals = action.payload;
       })
       .addCase(updateMeal.rejected, (state, action) => {
+        state.status = "failed";
+        state.message = action.payload;
+      })
+      .addCase(addMealToUserCollection.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(addMealToUserCollection.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.meals = action.payload;
+      })
+      .addCase(addMealToUserCollection.rejected, (state, action) => {
         state.status = "failed";
         state.message = action.payload;
       });

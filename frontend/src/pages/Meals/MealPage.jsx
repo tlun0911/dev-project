@@ -6,9 +6,11 @@ import {
   selectMealById,
   deleteMeal,
   getAllMeals,
+  addMealToUserCollection,
 } from "../../features/meals/mealSlice";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
+import { get } from "mongoose";
 
 const MealPage = () => {
   const navigate = useNavigate();
@@ -27,7 +29,8 @@ const MealPage = () => {
       dispatch(getAllMeals());
     }
     window.scrollTo(0, 0);
-  }, [dispatch, meal]);
+
+  }, [dispatch, meal, status]);
 
   const recipeStyle = {
     whiteSpace: "pre-line",
@@ -41,9 +44,7 @@ const MealPage = () => {
     if (!confirm) return;
 
     dispatch(deleteMeal(id));
-
     toast.success("Meal deleted successfully!");
-
     navigate("/meals");
   };
 
@@ -93,7 +94,17 @@ const MealPage = () => {
       </section>
     );
   } else {
-    buttonArea = <div></div>;
+    buttonArea = (
+      <div>
+        <button
+          type="button"
+          className="btn btn-primary m-2"
+          onClick={() => dispatch(addMealToUserCollection(meal._id))}
+        >
+          Add to My Meals
+        </button>
+      </div>
+    );
   }
 
   return (

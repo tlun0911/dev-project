@@ -4,7 +4,7 @@ const Meal = require("../models/mealModel");
 const User = require("../models/userModel");
 
 // @desc   Get all meals
-// @route  GET /api/meals
+// @route  GET /api/meals/:userid
 // @access  Private
 const getMeals = asyncHandler(async (req, res) => {
   const meals = await Meal.find({ user: req.user.id });
@@ -13,7 +13,7 @@ const getMeals = asyncHandler(async (req, res) => {
 });
 
 //@desc    Get all non-user meals to browse
-//@route   GET /api/meals/browse
+//@route   GET /api/meals/:userid/browse
 //@access  Private
 const browseMeals = asyncHandler(async (req, res) => {
   const meals = await Meal.find({ user: { $ne: req.user.id } });
@@ -22,7 +22,7 @@ const browseMeals = asyncHandler(async (req, res) => {
 });
 
 // @desc   Set meal
-// @route  POST /api/meals
+// @route  POST /api/meals/:userid
 // @access  Private
 const createMeal = asyncHandler(async (req, res) => {
   if (!req.body.meal_name) {
@@ -42,7 +42,7 @@ const createMeal = asyncHandler(async (req, res) => {
 });
 
 // @desc   Update meal
-// @route  POST /api/meals/:id
+// @route  POST /api/meals/:userid/:id
 // @access  Private
 const updateMeal = asyncHandler(async (req, res) => {
   const meal = await Meal.findById(req.params.id);
@@ -69,7 +69,7 @@ const updateMeal = asyncHandler(async (req, res) => {
 });
 
 // @desc   Delete meal
-// @route  DELETE /api/meals/:id
+// @route  DELETE /api/meals/:userid/:id
 // @access  Private
 const deleteMeal = asyncHandler(async (req, res) => {
   const meal = await Meal.findById(req.params.id);
@@ -93,10 +93,27 @@ const deleteMeal = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id });
 });
 
+//@desc    Add meal to user collection
+//@route   POST /api/meals/:userid/:id
+//@access  Private
+const addMealToUserCollection = asyncHandler(async (req, res) => {
+  const meal = await Meal.findById(req.params.id);
+  const newMeal = await Meal.create({
+    meal_name: meal.meal_name,
+    type: meal.type,
+    ingredients: meal.ingredients,
+    recipe: meal.recipe,
+    user_email: meal.user_email,
+    user: req.user.id,
+  });
+  res.status(200).json(newMeal);
+});
+
 module.exports = {
   getMeals,
   createMeal,
   updateMeal,
   deleteMeal,
   browseMeals,
+  addMealToUserCollection,
 };
