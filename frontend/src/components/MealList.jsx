@@ -16,7 +16,7 @@ const MealList = () => {
     if (!user) {
       navigate("/login");
     } else {
-      dispatch(getAllMeals());
+      dispatch(getAllMeals(user._id));
     }
   }, [user, navigate, dispatch]);
 
@@ -27,7 +27,7 @@ const MealList = () => {
   return (
     <div className="container">
       {meals.length > 0 ? (
-        <div className="row row-cols-2">
+        <div className="row row-cols-1 row-cols-sm-2 justify-content-center">
           {meals.map((meal) => (
             <Meal key={meal._id} meal={meal} user={user} />
           ))}

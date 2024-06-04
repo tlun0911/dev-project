@@ -62,15 +62,15 @@ const EditMealPage = () => {
   const submitForm = (e) => {
     e.preventDefault();
 
-    dispatch(updateMeal({ mealData: mealData, id: id }));
+    dispatch(updateMeal({ id: id, mealId: meal._id, mealData: mealData}));
     toast.success("Meal updated successfully!");
 
-    dispatch(getAllMeals());
+    dispatch(getAllMeals(user._id));
     return navigate("/meals");
   };
 
   return (
-    <>
+    
       <section className="bg-primary py-5 mb-4">
         <Form
           onSubmit={submitForm}
@@ -149,7 +149,6 @@ const EditMealPage = () => {
           </Container>
         </Form>
       </section>
-    </>
   );
 };
 

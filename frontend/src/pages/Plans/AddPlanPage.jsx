@@ -41,7 +41,7 @@ const AddPlanPage = () => {
       dispatch(planReset());
     }
     if (mealStatus === "idle") {
-      dispatch(getAllMeals());
+      dispatch(getAllMeals(user._id));
     }
   }, [user, mealPlanStatus, mealStatus, dispatch, navigate]);
 

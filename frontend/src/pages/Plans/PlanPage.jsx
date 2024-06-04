@@ -26,7 +26,7 @@ const PlanPage = () => {
       dispatch(getPlan());
     }
     if (mealStatus === "idle") {
-      dispatch(getAllMeals());
+      dispatch(getAllMeals(user._id));
     }
   }, [user, mealPlanStatus, mealStatus, dispatch, navigate]);
 
@@ -59,13 +59,12 @@ const PlanPage = () => {
   const emailPlan = async (plan) => {
     const confirm = window.confirm("Are you sure you want to email this plan?");
     if (!confirm) return;
-      try {
-        await sendEmail(user.email, plan, meals);
-        toast.success("Email sent successfully!");
-      } catch (error) {
-        toast.error("Error sending email");
-      }
-    
+    try {
+      await sendEmail(user.email, plan, meals);
+    } catch (error) {
+      toast.error("Error sending email");
+    }
+    toast.success("Email sent successfully!");
   };
 
   const formatText = (text) => {
@@ -80,6 +79,7 @@ const PlanPage = () => {
   return (
     <div className="container">
       <h2 className="bg-primary">Meal Plans</h2>
+      <div className="row">
       {mealPlans.map((plan) => (
         <div className="mb-3" key={plan._id}>
           <h3>
@@ -173,6 +173,7 @@ const PlanPage = () => {
           </div>
         </div>
       ))}
+      </div>
     </div>
   );
 };

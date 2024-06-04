@@ -10,12 +10,10 @@ import {
 } from "../../features/meals/mealSlice";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Spinner from "../../components/Spinner";
-import { get } from "mongoose";
 
 const MealPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const { id } = useParams();
   const mealSelector = selectMealById(id);
   const meal = useSelector((state) => mealSelector(state));
@@ -26,7 +24,7 @@ const MealPage = () => {
   useEffect(() => {
     // Fetch all meals when the component mounts
     if (status === "idle") {
-      dispatch(getAllMeals());
+      dispatch(getAllMeals(user._id));
     }
     window.scrollTo(0, 0);
 
@@ -36,14 +34,14 @@ const MealPage = () => {
     whiteSpace: "pre-line",
   };
 
-  const onDeleteClick = (mealId) => {
+  const onDeleteClick = (user, mealId) => {
     const confirm = window.confirm(
       "Are you sure you want to delete this meal?"
     );
 
     if (!confirm) return;
-
-    dispatch(deleteMeal(id));
+    
+    dispatch(deleteMeal({id: user._id, mealId: mealId}));
     toast.success("Meal deleted successfully!");
     navigate("/meals");
   };
@@ -87,7 +85,7 @@ const MealPage = () => {
         <button
           type="button"
           className="btn btn-primary m-2"
-          onClick={() => onDeleteClick(meal._id)}
+          onClick={() => onDeleteClick(user, meal._id)}
         >
           Delete Meal
         </button>

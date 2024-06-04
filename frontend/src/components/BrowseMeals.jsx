@@ -16,7 +16,7 @@ const BrowseMeals = () => {
     if (!user) {
       navigate("/login");
     } else {
-      dispatch(browseMeals());
+      dispatch(browseMeals(user._id));
     }
 
   }, [user, navigate, dispatch]);

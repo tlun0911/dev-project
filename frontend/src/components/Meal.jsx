@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const Meal = ({ meal }) => {
-
   const [seeAllIngredients, setSeeAllIngredients] = useState(false);
 
   const formatText = (text) => {
@@ -14,33 +13,31 @@ const Meal = ({ meal }) => {
     return formatted;
   };
 
-  let ingredientsList
+  let ingredientsList;
 
-  if(seeAllIngredients) {
-    ingredientsList = (
-    meal.ingredients.map((ingredient, index) => (
+  if (seeAllIngredients) {
+    ingredientsList = meal.ingredients.map((ingredient, index) => (
       <li key={index} className="list-group-item bg-secondary">
         {formatText(ingredient)}
       </li>
-    ))
-    )      
+    ));
   } else {
-    ingredientsList = (
-      meal.ingredients.slice(0, 3).map((ingredient, index) => (
-        <li key={index} className="list-group-item bg-secondary">
-          {formatText(ingredient)}
-        </li>
-      ))
-    )
+    ingredientsList = meal.ingredients.slice(0, 3).map((ingredient, index) => (
+      <li key={index} className="list-group-item bg-secondary">
+        {formatText(ingredient)}
+      </li>
+    ));
   }
 
   return (
-    <div className="row row-cols-2">
+    <div className="row">
       <div className="col-sm mb-3">
         <div className="card border-primary border-2 h-100 mb-3">
-          <div className="d-flex justify-content-between align-items-center bg-primary">
-            <h4 className="card-header bg-primary">{meal.meal_name}</h4>
-            <h5 className="mx-3">Favorite Placeholder</h5>
+          <div className="d-flex text-center bg-primary">
+            <div className="col">
+              <h5 className="card-header bg-primary">{meal.meal_name}</h5>
+            </div>
+            
           </div>
           <div className="card-body">
             <h5 className="card-subtitle mb-3 text-body-secondary">
@@ -49,17 +46,19 @@ const Meal = ({ meal }) => {
             <h6 className="card-title mb-3">Ingredients</h6>
 
             <ol className="list-group list-group-numbered">
-              {ingredientsList}            
+              {ingredientsList}
             </ol>
-            <p className="card-text">Created by - {meal.user_email}
+            <p className="card-text">
+              Created by - {meal.user_email}
               <span className="float-end">
-              <button
-                onClick={() => setSeeAllIngredients((prevState) => !prevState)}
-                className='btn btn-primary mb-1 me-2'
-              >
-                {seeAllIngredients ? 'Less' : 'More'}
-              </button>
-
+                <button
+                  onClick={() =>
+                    setSeeAllIngredients((prevState) => !prevState)
+                  }
+                  className="btn btn-outline-primary btn-sm my-1 me-2"
+                >
+                  {seeAllIngredients ? "See Less" : "See More"}
+                </button>
               </span>
             </p>
             <Link

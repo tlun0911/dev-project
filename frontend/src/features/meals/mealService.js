@@ -4,54 +4,54 @@ const API_URL = '/api/meals/';
 
 
 
-const createMeal = async (mealData, token) => {
+const createMeal = async (id, mealData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.post(API_URL, mealData, config);
+  const response = await axios.post(API_URL + id, mealData, config);
   return response.data;
 };
 
-const getAllMeals = async (token) => {
+const getAllMeals = async (id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.get(API_URL, config);
+  const response = await axios.get(API_URL + id, config);
   return response.data;
 };
 
-const deleteMeal = async (mealId, token) => {
+const deleteMeal = async (id, mealId, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.delete(API_URL + mealId, config);
+  const response = await axios.delete(`${API_URL}${id}/${mealId}`, config);
   return response.data;
 };
 
 //Updates meal with user changes
-const updateMeal = async (mealData, id, token) => {
+const updateMeal = async (id, mealId, mealData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.put(API_URL + id, mealData, config);
+  const response = await axios.put(`${API_URL}${id}/${mealId}`, mealData, config);
   return response.data;
 };
 
-const browseMeals = async (token) => {
+const browseMeals = async (id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.get(API_URL + "browse", config);
+  const response = await axios.get(API_URL + id + "/browse", config);
 
   return response.data;
 };

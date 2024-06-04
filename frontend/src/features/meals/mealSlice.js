@@ -24,10 +24,10 @@ export const selectMealById = (mealId) =>
 
 export const browseMeals = createAsyncThunk(
   "meals/browseMeals",
-  async (_, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await mealService.browseMeals(token);
+      return await mealService.browseMeals(id, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -43,10 +43,10 @@ export const browseMeals = createAsyncThunk(
 //Create new meal
 export const createMeal = createAsyncThunk(
   "meals/createMeal",
-  async (mealData, thunkAPI) => {
+  async ({id, mealData}, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await mealService.createMeal(mealData, token);
+      return await mealService.createMeal(id, mealData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -62,10 +62,10 @@ export const createMeal = createAsyncThunk(
 //Get meals
 export const getAllMeals = createAsyncThunk(
   "meals/getAllMeals",
-  async (_, thunkAPI) => {
+  async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await mealService.getAllMeals(token);
+      return await mealService.getAllMeals(id, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -81,10 +81,10 @@ export const getAllMeals = createAsyncThunk(
 //Update meal
 export const updateMeal = createAsyncThunk(
   "meals/updateMeal",
-  async ({ mealData, id }, thunkAPI) => {
+  async ({ id, mealId, mealData }, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await mealService.updateMeal(mealData, id, token);
+      return await mealService.updateMeal(id, mealId, mealData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -99,10 +99,11 @@ export const updateMeal = createAsyncThunk(
 
 export const deleteMeal = createAsyncThunk(
   "meals/deleteMeal",
-  async (mealId, thunkAPI) => {
+  async ({id, mealId}, thunkAPI) => {
+
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await mealService.deleteMeal(mealId, token);
+      return await mealService.deleteMeal(id, mealId, token);
     } catch (error) {
       const message =
         (error.response &&

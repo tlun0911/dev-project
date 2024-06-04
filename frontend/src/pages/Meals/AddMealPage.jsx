@@ -44,7 +44,7 @@ const AddMealPage = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    dispatch(createMeal(mealData));
+    dispatch(createMeal({id: user._id, mealData: mealData}));
     toast.success("Meal submitted successfully");
     let clearMealData = {
       meal_name: "",
