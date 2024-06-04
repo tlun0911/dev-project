@@ -56,12 +56,23 @@ const browseMeals = async (id, token) => {
   return response.data;
 };
 
+const addMealToUserCollection = async (id, mealId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.post(`${API_URL}${id}/${mealId}`, { mealId }, config);
+  return response.data;
+}
+
 const mealService = {
   createMeal,
   getAllMeals,
   deleteMeal,
   browseMeals,
   updateMeal,
+  addMealToUserCollection,
 };
 
 export default mealService;

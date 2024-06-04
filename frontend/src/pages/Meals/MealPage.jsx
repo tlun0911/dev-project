@@ -42,6 +42,7 @@ const MealPage = () => {
     if (!confirm) return;
     
     dispatch(deleteMeal({id: user._id, mealId: mealId}));
+    dispatch(getAllMeals(user._id));
     toast.success("Meal deleted successfully!");
     navigate("/meals");
   };
@@ -71,6 +72,7 @@ const MealPage = () => {
   }
 
   let buttonArea;
+  let backButton;
 
   if (user._id === meal.user) {
     buttonArea = (
@@ -91,28 +93,41 @@ const MealPage = () => {
         </button>
       </section>
     );
+
+    backButton = (
+      <div className="container mx-auto py-3 px-3">
+      <Link to="/meals" type="button" className="btn btn-primary">
+        <FaArrowLeft className="mr-2" /> Back to Meals
+      </Link>
+    </div>
+    );
+
   } else {
     buttonArea = (
       <div>
         <button
           type="button"
           className="btn btn-primary m-2"
-          onClick={() => dispatch(addMealToUserCollection(meal._id))}
+          onClick={() => dispatch(addMealToUserCollection({id: user._id, mealId: meal._id}))}
         >
           Add to My Meals
         </button>
       </div>
     );
+
+    backButton = (
+      <div className="container mx-auto py-3 px-3">
+      <Link to="/browse" type="button" className="btn btn-primary">
+        <FaArrowLeft className="mr-2" /> Back to Browse Meals
+      </Link>
+    </div>
+    )
   }
 
   return (
     <>
       <section>
-        <div className="container mx-auto py-3 px-3">
-          <Link to="/meals" type="button" className="btn btn-primary">
-            <FaArrowLeft className="mr-2" /> Back to Meals
-          </Link>
-        </div>
+        {backButton}
       </section>
       <section className="bg-primary-50">
         <div className="container mx-auto py-2 px-4">

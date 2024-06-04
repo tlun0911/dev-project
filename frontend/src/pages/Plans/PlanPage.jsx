@@ -76,9 +76,28 @@ const PlanPage = () => {
     return formatted;
   };
 
+  if (mealPlans.length === 0) {
+    return (
+      <div className="container">
+        <h1>Looks like you don't have any plans, let's create one!</h1>
+        <Link to="/plans/create" className="btn btn-primary">
+          Create Plan
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <div className="container">
-      <h2 className="bg-primary">Meal Plans</h2>
+    <div className="container-fluid">
+        <section className="bg-primary py-4 mb-2">
+        <div className="container-fluid mx-auto px-3 px-sm-4 px-lg-5 d-flex flex-column align-items-center">
+          <div className="text-center">
+            <h5 className="text-black fw-bold display-4 display-sm-3 display-md-2">
+              Meal Plans
+            </h5>
+            </div>
+        </div>
+      </section>
       <div className="row">
       {mealPlans.map((plan) => (
         <div className="mb-3" key={plan._id}>

@@ -25,8 +25,7 @@ const NavBar = () => {
     navigate("/");
   };
 
-  const activeLink = ({ isActive }) =>
-    isActive ? "fw-bold text-decoration-underline" : "";
+
 
   return (
     <Navbar

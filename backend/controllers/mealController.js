@@ -97,7 +97,7 @@ const deleteMeal = asyncHandler(async (req, res) => {
 //@route   POST /api/meals/:userid/:id
 //@access  Private
 const addMealToUserCollection = asyncHandler(async (req, res) => {
-  const meal = await Meal.findById(req.params.id);
+  const meal = await Meal.findById(req.params.mealId);
   const newMeal = await Meal.create({
     meal_name: meal.meal_name,
     type: meal.type,

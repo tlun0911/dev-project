@@ -50,47 +50,63 @@ const Login = () => {
   };
 
   return (
-    <div className="container">
-      <section className="heading">
-        <h1>
-          <FaSignInAlt /> Login
-        </h1>
-        <p>Login to start planning your Meals!</p>
-      </section>
+    <>
+      <div className="container bg-secondary border border-black border-2 rounded">
+        <section className="heading">
+          <h1>
+            <FaSignInAlt /> Login
+          </h1>
+          <p>Login to start planning your Meals!</p>
+        </section>
 
-      <section className="form">
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              name="email"
-              value={email}
-              placeholder="Enter your email"
-              onChange={onChange}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control"
-              id="password"
-              name="password"
-              value={password}
-              placeholder="Enter password"
-              onChange={onChange}
-            />
-          </div>
+        <section className="form">
+          <form onSubmit={onSubmit}>
+            <div className="form-group">
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                name="email"
+                value={email}
+                placeholder="Enter your email"
+                onChange={onChange}
+              />
+            </div>
+            <div className="form-group">
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                name="password"
+                value={password}
+                placeholder="Enter password"
+                onChange={onChange}
+              />
+            </div>
 
-          <div className="form-group">
-            <button type="submit" className="btn btn-block">
-              Submit
-            </button>
+            <div className="form-group">
+              <button type="submit" className="btn btn-block">
+                Submit
+              </button>
+            </div>
+          </form>
+        </section>
+      </div>
+      <div className="container mt-2">
+        <div className="col-4">
+        <div className="card">
+          <div className="card-body border border-outline border-black rounded">
+            <p>
+              <strong>Don't have an account? Register here!</strong>
+            </p>
+              <button type="button" href="/register" className="btn btn-outline-primary">
+                Register
+              </button>
           </div>
-        </form>
-      </section>
-    </div>
+        </div>
+        </div>
+      </div>
+    </>
   );
 };
 

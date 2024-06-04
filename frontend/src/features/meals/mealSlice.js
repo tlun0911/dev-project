@@ -3,7 +3,6 @@ import {
   createAsyncThunk,
   createSelector,
 } from "@reduxjs/toolkit";
-import axios from "axios";
 import mealService from "./mealService";
 
 const initialState = {
@@ -30,9 +29,7 @@ export const browseMeals = createAsyncThunk(
       return await mealService.browseMeals(id, token);
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        error?.response?.data?.message ||
         error.message ||
         error.toString();
       return thunkAPI.rejectWithValue(message);
@@ -49,9 +46,7 @@ export const createMeal = createAsyncThunk(
       return await mealService.createMeal(id, mealData, token);
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        error?.response?.data?.message ||
         error.message ||
         error.toString();
       return thunkAPI.rejectWithValue(message);
@@ -68,9 +63,7 @@ export const getAllMeals = createAsyncThunk(
       return await mealService.getAllMeals(id, token);
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        error?.response?.data?.message ||
         error.message ||
         error.toString();
       return thunkAPI.rejectWithValue(message);
@@ -87,9 +80,7 @@ export const updateMeal = createAsyncThunk(
       return await mealService.updateMeal(id, mealId, mealData, token);
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        error?.response?.data?.message ||
         error.message ||
         error.toString();
       return thunkAPI.rejectWithValue(message);
@@ -106,9 +97,7 @@ export const deleteMeal = createAsyncThunk(
       return await mealService.deleteMeal(id, mealId, token);
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        error?.response?.data?.message ||
         error.message ||
         error.toString();
       return thunkAPI.rejectWithValue(message);
@@ -119,26 +108,19 @@ export const deleteMeal = createAsyncThunk(
 //Add meal to user collection
 export const addMealToUserCollection = createAsyncThunk(
   "meals/addMealToUserCollection",
-  async (mealId, thunkAPI) => {
-    const token = thunkAPI.getState().auth.user.token;
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+  async ({id, mealId}, thunkAPI) => {
+
     try {
+      const token = thunkAPI.getState().auth.user.token;
       console.log("Inside addMealToUserCollection")
-      const response = await axios.post(`/api/meals/${auth.user._id}/${mealId}`, { mealId });
+      return await mealService.addMealToUserCollection(id, mealId, token);
     } catch (error) {
       const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
+        error?.response?.data?.message ||
         error.message ||
         error.toString();
       return thunkAPI.rejectWithValue(message);
     }
-    return response.data;
   }
 );
 
