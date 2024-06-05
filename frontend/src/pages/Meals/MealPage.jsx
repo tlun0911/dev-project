@@ -47,6 +47,19 @@ const MealPage = () => {
     navigate("/meals");
   };
 
+  const onAddClick = (user, mealId) => {
+    const confirm = window.confirm(
+      "Are you sure you want to add this meal to your collection?"
+    );
+    if (!confirm) return;
+    
+    dispatch(addMealToUserCollection({userId: user._id, id: mealId}));
+    toast.success("Meal added to your collection!");
+    dispatch(getAllMeals(user._id));
+    navigate("/meals");
+  };
+
+
   const formatText = (text) => {
     let firstLetter = text[0];
     let remaining = text.slice(1);
@@ -108,7 +121,7 @@ const MealPage = () => {
         <button
           type="button"
           className="btn btn-primary m-2"
-          onClick={() => dispatch(addMealToUserCollection({id: user._id, mealId: meal._id}))}
+          onClick={() => onAddClick(user, meal._id)}
         >
           Add to My Meals
         </button>

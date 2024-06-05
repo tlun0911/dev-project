@@ -10,14 +10,14 @@ const {
 } = require("../controllers/mealController");
 const { protect } = require("../middleware/authMiddleware");
 
+
+
+
+router.route("/:userid/browse").get(protect, browseMeals);
+
 router.route("/:userid").get(protect, getMeals).post(protect, createMeal);
 
 router
-  .route("/:userid/:id")
-  .delete(protect, deleteMeal)
-  .put(protect, updateMeal)
-  .post(protect, addMealToUserCollection);
-
-router.route("/:userid/browse").get(protect, browseMeals);
+.route("/:userid/:id").delete(protect, deleteMeal).put(protect, updateMeal).post(addMealToUserCollection);
 
 module.exports = router;

@@ -25,10 +25,10 @@ const PlanPage = () => {
     if (mealPlanStatus === "idle") {
       dispatch(getPlan());
     }
-    if (mealStatus === "idle") {
+    
       dispatch(getAllMeals(user._id));
-    }
-  }, [user, mealPlanStatus, mealStatus, dispatch, navigate]);
+    
+  }, [user, mealPlanStatus, dispatch, navigate]);
 
   if (mealPlanStatus === "loading" || mealStatus === "loading") {
     return <Spinner />;

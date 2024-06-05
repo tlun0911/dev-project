@@ -49,7 +49,7 @@ const Meal = ({ meal }) => {
               {ingredientsList}
             </ol>
             <p className="card-text">
-              Created by - {meal.user_email}
+              Added by - {meal.user_email}
               <span className="float-end">
                 <button
                   onClick={() =>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaSignInAlt } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { login, reset } from "../features/auth/authSlice";
 import { reset as mealReset } from "../features/meals/mealSlice";
@@ -72,7 +72,7 @@ const Login = () => {
                 onChange={onChange}
               />
             </div>
-            <div className="form-group">
+            <div className="form-group mb-3">
               <input
                 type="password"
                 className="form-control"
@@ -84,8 +84,8 @@ const Login = () => {
               />
             </div>
 
-            <div className="form-group">
-              <button type="submit" className="btn btn-block">
+            <div className="form-group mb-3">
+              <button type="submit" className="btn btn-outline-dark">
                 Submit
               </button>
             </div>
@@ -99,9 +99,9 @@ const Login = () => {
             <p>
               <strong>Don't have an account? Register here!</strong>
             </p>
-              <button type="button" href="/register" className="btn btn-outline-primary">
+              <Link type="button" to="/register" className="btn btn-outline-primary">
                 Register
-              </button>
+              </Link>
           </div>
         </div>
         </div>

@@ -1,9 +1,10 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { reset, browseMeals } from "../features/meals/mealSlice";
+import { reset, browseMeals, getAllMeals } from "../features/meals/mealSlice";
 import Spinner from "./Spinner";
 import Meal from "./Meal";
+
 
 const BrowseMeals = () => {
   const navigate = useNavigate();

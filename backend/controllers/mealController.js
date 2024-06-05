@@ -97,14 +97,15 @@ const deleteMeal = asyncHandler(async (req, res) => {
 //@route   POST /api/meals/:userid/:id
 //@access  Private
 const addMealToUserCollection = asyncHandler(async (req, res) => {
-  const meal = await Meal.findById(req.params.mealId);
+  console.log("Inside addMealToUserCollection mealController" + req.params.id)
+  const meal = await Meal.findById(req.params.id);
   const newMeal = await Meal.create({
     meal_name: meal.meal_name,
     type: meal.type,
     ingredients: meal.ingredients,
     recipe: meal.recipe,
     user_email: meal.user_email,
-    user: req.user.id,
+    user: req.params.userid,
   });
   res.status(200).json(newMeal);
 });

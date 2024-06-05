@@ -108,12 +108,11 @@ export const deleteMeal = createAsyncThunk(
 //Add meal to user collection
 export const addMealToUserCollection = createAsyncThunk(
   "meals/addMealToUserCollection",
-  async ({id, mealId}, thunkAPI) => {
+  async ({userId, id}, thunkAPI) => {
 
     try {
       const token = thunkAPI.getState().auth.user.token;
-      console.log("Inside addMealToUserCollection")
-      return await mealService.addMealToUserCollection(id, mealId, token);
+      return await mealService.addMealToUserCollection(userId, id, token);
     } catch (error) {
       const message =
         error?.response?.data?.message ||

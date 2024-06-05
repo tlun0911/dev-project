@@ -56,13 +56,13 @@ const browseMeals = async (id, token) => {
   return response.data;
 };
 
-const addMealToUserCollection = async (id, mealId, token) => {
+const addMealToUserCollection = async (userId, id, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.post(`${API_URL}${id}/${mealId}`, { mealId }, config);
+  const response = await axios.post(`${API_URL}${userId}/${id}`, config);
   return response.data;
 }
 

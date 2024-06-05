@@ -13,12 +13,23 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.options("*", (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Content-Type, Authorization, Content-Length, X-Requested-With"
+  );
+  res.sendStatus(200);
+});
+
+app.use(errorHandler);
+
 app.use("/api/meals", require("./routes/mealRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/plans", require("./routes/planRoutes"));
 app.use("/api/email", require("./routes/emailRoutes"));
 
-app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
