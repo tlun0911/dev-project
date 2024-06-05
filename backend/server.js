@@ -32,7 +32,7 @@ app.use("/api/plans", require("./routes/planRoutes"));
 app.use("/api/email", require("./routes/emailRoutes"));
 
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "/frontend/dist")));
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
   app.get("*", (req, res) =>
     res.sendFile(
