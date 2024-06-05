@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const colors = require("colors");
 const nodemailer = require("nodemailer");
@@ -29,6 +30,16 @@ app.use("/api/meals", require("./routes/mealRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 app.use("/api/plans", require("./routes/planRoutes"));
 app.use("/api/email", require("./routes/emailRoutes"));
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+  app.get("*", (req, res) =>
+    res.sendFile(
+        path.resolve(__dirname, "../", "frontend", "dist", "index.html")
+      )
+  );
+}
 
 
 app.listen(port, () => {
